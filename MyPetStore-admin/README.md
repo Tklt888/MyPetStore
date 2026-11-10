@@ -30,8 +30,11 @@ store-admin-web  Spring Boot 启动、Controller 和 Thymeleaf 页面
 
 ## 启动
 
+先完成构建，再运行生成的可执行 Jar：
+
 ```bash
-./mvnw -pl store-admin-web -am spring-boot:run
+./mvnw clean verify
+java -jar store-admin-web/target/store-admin-web-0.0.1-SNAPSHOT.jar
 ```
 
 启动后访问 <http://localhost:8081/>。

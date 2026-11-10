@@ -9,6 +9,7 @@
 <main>
     <h1 th:text="${applicationName}">MyPetStore 管理端</h1>
     <p>数据库连接成功，当前共有 <strong th:text="${productCount}">0</strong> 个商品。</p>
+    <p><a th:href="@{/admin/products}">进入商品管理</a></p>
 </main>
 </body>
 </html>

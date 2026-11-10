@@ -40,4 +40,10 @@ java -jar store-admin-web/target/store-admin-web-0.0.1-SNAPSHOT.jar
 
 启动后访问 <http://localhost:8081/>。
 
+商品管理列表地址为 <http://localhost:8081/admin/products>，支持以下 GET 参数：
+
+- `keyword`：按商品名称或 SKU 模糊查询
+- `status`：按 `ON_SALE` 或 `DRAFT` 筛选
+- `page`：页码，每页固定 10 条
+
 应用默认连接本机 `MyPetStore` 数据库，用户名默认为 `root`，也可通过 `DB_USERNAME` 修改。真实用户名和密码只通过环境变量提供，不得提交到 Git。

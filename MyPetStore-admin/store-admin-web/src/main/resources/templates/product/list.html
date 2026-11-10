@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>商品管理 - MyPetStore</title>
+    <style>
+        :root { color-scheme: light; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+        body { margin: 0; background: #f5f7fa; color: #1f2937; }
+        main { width: min(1180px, calc(100% - 40px)); margin: 40px auto; }
+        header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+        h1 { margin: 0; font-size: 28px; }
+        a { color: #2563eb; text-decoration: none; }
+        .panel { background: white; border: 1px solid #e5e7eb; border-radius: 12px; box-shadow: 0 8px 24px rgb(15 23 42 / 6%); }
+        form { display: flex; gap: 12px; padding: 18px; border-bottom: 1px solid #e5e7eb; }
+        input, select, button { min-height: 40px; box-sizing: border-box; border-radius: 8px; font: inherit; }
+        input, select { border: 1px solid #d1d5db; padding: 0 12px; background: white; }
+        input { min-width: 280px; }
+        button { border: 0; padding: 0 18px; background: #2563eb; color: white; cursor: pointer; }
+        .clear { display: inline-flex; align-items: center; padding: 0 12px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 14px 16px; border-bottom: 1px solid #eef0f3; text-align: left; }
+        th { background: #fafafa; color: #4b5563; font-size: 14px; }
+        .number { text-align: right; font-variant-numeric: tabular-nums; }
+        .status { display: inline-block; padding: 4px 9px; border-radius: 999px; font-size: 13px; background: #e5e7eb; }
+        .status.on-sale { color: #166534; background: #dcfce7; }
+        .empty { padding: 48px 16px; text-align: center; color: #6b7280; }
+        footer { display: flex; align-items: center; justify-content: space-between; padding: 18px; }
+        .pagination { display: flex; align-items: center; gap: 14px; }
+        .disabled { color: #9ca3af; }
+    </style>
+</head>
+<body>
+<main>
+    <header>
+        <div>
+            <h1>商品管理</h1>
+            <p>查询 MyPetStore 中的商品、库存与销售状态。</p>
+        </div>
+        <a th:href="@{/}">返回首页</a>
+    </header>
+
+    <section class="panel">
+        <form method="get" th:action="@{/admin/products}">
+            <input type="search" name="keyword" placeholder="商品名称或 SKU"
+                   th:value="${query.keyword}">
+            <select name="status">
+                <option value="">全部状态</option>
+                <option value="ON_SALE" th:selected="${query.status == 'ON_SALE'}">已上架</option>
+                <option value="DRAFT" th:selected="${query.status == 'DRAFT'}">草稿</option>
+            </select>
+            <button type="submit">查询</button>
+            <a class="clear" th:href="@{/admin/products}">清空</a>
+        </form>
+
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>SKU</th>
+                <th>商品名称</th>
+                <th>分类</th>
+                <th class="number">价格</th>
+                <th class="number">库存</th>
+                <th>状态</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product : ${page.records}">
+                <td th:text="${product.id}">1</td>
+                <td th:text="${product.sku}">DOG-001</td>
+                <td th:text="${product.name}">商品名称</td>
+                <td th:text="${product.categoryName}">分类</td>
+                <td class="number" th:text="|¥${#numbers.formatDecimal(product.price, 1, 2)}|">¥0.00</td>
+                <td class="number" th:text="${product.stock}">0</td>
+                <td>
+                    <span class="status" th:classappend="${product.status == 'ON_SALE'} ? ' on-sale'"
+                          th:text="${product.status == 'ON_SALE'} ? '已上架' : '草稿'">状态</span>
+                </td>
+            </tr>
+            <tr th:if="${page.records.isEmpty()}">
+                <td class="empty" colspan="7">没有找到符合条件的商品</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <footer>
+            <span>共 <strong th:text="${page.total}">0</strong> 条记录</span>
+            <nav class="pagination" aria-label="商品列表分页">
+                <a th:if="${page.current > 1}"
+                   th:href="@{/admin/products(page=${page.current - 1},keyword=${query.keyword},status=${query.status})}">上一页</a>
+                <span class="disabled" th:unless="${page.current > 1}">上一页</span>
+                <span>第 <strong th:text="${page.current}">1</strong> / <strong th:text="${page.pages}">1</strong> 页</span>
+                <a th:if="${page.current < page.pages}"
+                   th:href="@{/admin/products(page=${page.current + 1},keyword=${query.keyword},status=${query.status})}">下一页</a>
+                <span class="disabled" th:unless="${page.current < page.pages}">下一页</span>
+            </nav>
+        </footer>
+    </section>
+</main>
+</body>
+</html>

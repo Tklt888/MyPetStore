@@ -1,27 +1,24 @@
 package org.csu.mypetstore.admin;
 
 import org.csu.mypetstore.admin.controller.HomeController;
+import org.csu.mypetstore.service.ProductService;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.ui.ExtendedModelMap;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@WebMvcTest(HomeController.class)
 class AdminApplicationTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-
     @Test
-    void homePageRendersAdminApplicationName() throws Exception {
-        mockMvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("index"))
-                .andExpect(model().attribute("applicationName", "MyPetStore 管理端"));
+    void homePageRendersAdminApplicationNameAndProductCount() {
+        ProductService productService = () -> 40L;
+        HomeController controller = new HomeController(productService);
+        ExtendedModelMap model = new ExtendedModelMap();
+
+        String viewName = controller.index(model);
+
+        assertEquals("index", viewName);
+        assertEquals("MyPetStore 管理端", model.get("applicationName"));
+        assertEquals(40L, model.get("productCount"));
     }
 }

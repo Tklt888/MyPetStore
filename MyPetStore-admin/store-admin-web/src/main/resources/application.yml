@@ -4,5 +4,14 @@ server:
 spring:
   application:
     name: mypetstore-admin
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/MyPetStore?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
   thymeleaf:
     cache: false
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true

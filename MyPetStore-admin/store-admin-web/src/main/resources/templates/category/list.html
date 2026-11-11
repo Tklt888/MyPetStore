@@ -92,7 +92,16 @@
             </tr>
             </tbody>
             <tbody th:if="${page.records.isEmpty()}">
-            <tr><td class="empty" colspan="6">暂无分类，可先新增一级分类</td></tr>
+            <tr>
+                <td class="empty" colspan="6">
+                    <p>暂无分类，可先新增一级分类</p>
+                    <p th:if="${page.pages > 0 and page.current > page.pages}">
+                        当前页已超出有效范围，
+                        <a th:href="@{/admin/categories(page=1)}">返回第一页</a>
+                        或 <a th:href="@{/admin/categories(page=${page.pages})}">前往最后一页</a>。
+                    </p>
+                </td>
+            </tr>
             </tbody>
         </table>
         <footer>

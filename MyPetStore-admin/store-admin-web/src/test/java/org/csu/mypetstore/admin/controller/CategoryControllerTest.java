@@ -183,6 +183,23 @@ class CategoryControllerTest {
     }
 
     @Test
+    void outOfRangeEmptyPageLinksDirectlyToValidPages() {
+        Page<CategoryTreeItem> page = new Page<>(999, 10, 11);
+        page.setRecords(List.of());
+        WebContext context = webContext();
+        context.setVariable("page", page);
+        context.setVariable("query", new CategoryListQuery());
+        context.setVariable("message", null);
+        context.setVariable("error", null);
+        context.setVariable("_csrf", new DefaultCsrfToken("X-CSRF-TOKEN", "_csrf", "token-123"));
+
+        String html = templateEngine().process("category/list", context);
+
+        assertTrue(html.contains("href=\"/admin/categories?page=1\""));
+        assertTrue(html.contains("href=\"/admin/categories?page=2\""));
+    }
+
+    @Test
     void editTemplateKeepsCodeAndParentReadOnly() {
         WebContext context = webContext();
         context.setVariable("editing", true);

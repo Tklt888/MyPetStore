@@ -14,13 +14,17 @@ import org.csu.mypetstore.service.impl.CategoryServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -123,6 +127,18 @@ class CategoryServiceTest {
     }
 
     @Test
+    void concurrentCreateConstraintFailureUsesSafeMessage() {
+        doThrow(new DuplicateKeyException("SQL: duplicate uk_category_code"))
+                .when(mapper).insert(any(Category.class));
+
+        CategoryValidationException exception = assertThrows(CategoryValidationException.class,
+                () -> service.create(new CategoryCreateCommand("DOGS", "犬类", 0, null)));
+
+        assertEquals("分类编码或同级名称已存在", exception.getMessage());
+        assertFalse(exception.getMessage().contains("SQL"));
+    }
+
+    @Test
     void listTreeLoadsChildrenOnlyForTopLevelsOnCurrentPage() {
         CategoryRow dogs = row(1L, null, "DOGS", "犬类", 10);
         CategoryRow cats = row(2L, null, "CATS", "猫类", 20);
@@ -203,6 +219,19 @@ class CategoryServiceTest {
     }
 
     @Test
+    void concurrentUpdateConstraintFailureUsesSafeMessage() {
+        when(mapper.selectById(101L)).thenReturn(category(101L, 1L, "DOGS_PETS", "宠物", 10));
+        doThrow(new DataIntegrityViolationException("SQL: sibling duplicate"))
+                .when(mapper).updateNameAndSort(101L, "用品", 10);
+
+        CategoryValidationException exception = assertThrows(CategoryValidationException.class,
+                () -> service.update(101L, new CategoryUpdateCommand("用品", 10)));
+
+        assertEquals("同级分类名称已存在", exception.getMessage());
+        assertFalse(exception.getMessage().contains("SQL"));
+    }
+
+    @Test
     void missingCategoryIsReportedForEditUpdateAndDelete() {
         when(mapper.selectById(404L)).thenReturn(null);
 
@@ -239,6 +268,21 @@ class CategoryServiceTest {
         service.delete(900L);
 
         verify(mapper).deleteById(900L);
+    }
+
+    @Test
+    void concurrentDeleteReferenceFailureUsesSafeMessage() {
+        when(mapper.selectById(900L)).thenReturn(category(900L, null, "TEMP", "临时", 0));
+        when(mapper.countChildren(900L)).thenReturn(0L);
+        when(mapper.countProductReferences(900L)).thenReturn(0L);
+        doThrow(new DataIntegrityViolationException("SQL: foreign key violation"))
+                .when(mapper).deleteById(900L);
+
+        CategoryValidationException exception = assertThrows(CategoryValidationException.class,
+                () -> service.delete(900L));
+
+        assertEquals("分类已被引用，不能删除", exception.getMessage());
+        assertFalse(exception.getMessage().contains("SQL"));
     }
 
     private Category category(Long id, Long parentId, String code, String name, int sortOrder) {

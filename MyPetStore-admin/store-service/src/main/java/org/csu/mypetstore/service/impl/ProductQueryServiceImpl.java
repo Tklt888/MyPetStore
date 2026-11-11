@@ -25,6 +25,8 @@ public class ProductQueryServiceImpl implements ProductQueryService {
         return productMapper.selectProductPage(
                 page,
                 query.normalizedKeyword(),
-                query.normalizedStatus());
+                query.normalizedStatus(),
+                query.normalizedTopCategoryId(),
+                query.normalizedCategoryId());
     }
 }

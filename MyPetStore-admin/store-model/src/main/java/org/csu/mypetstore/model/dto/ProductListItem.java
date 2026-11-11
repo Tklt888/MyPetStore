@@ -8,9 +8,14 @@ public class ProductListItem {
     private String sku;
     private String name;
     private String categoryName;
+    private Long categoryId;
+    private String topCategoryName;
+    private Long topCategoryId;
     private BigDecimal price;
     private Integer stock;
     private String status;
+    private Integer sortOrder;
+    private Long version;
 
     public Long getId() {
         return id;
@@ -44,6 +49,13 @@ public class ProductListItem {
         this.categoryName = categoryName;
     }
 
+    public Long getCategoryId() { return categoryId; }
+    public void setCategoryId(Long categoryId) { this.categoryId = categoryId; }
+    public String getTopCategoryName() { return topCategoryName; }
+    public void setTopCategoryName(String topCategoryName) { this.topCategoryName = topCategoryName; }
+    public Long getTopCategoryId() { return topCategoryId; }
+    public void setTopCategoryId(Long topCategoryId) { this.topCategoryId = topCategoryId; }
+
     public BigDecimal getPrice() {
         return price;
     }
@@ -67,4 +79,9 @@ public class ProductListItem {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public Integer getSortOrder() { return sortOrder; }
+    public void setSortOrder(Integer sortOrder) { this.sortOrder = sortOrder; }
+    public Long getVersion() { return version; }
+    public void setVersion(Long version) { this.version = version; }
 }

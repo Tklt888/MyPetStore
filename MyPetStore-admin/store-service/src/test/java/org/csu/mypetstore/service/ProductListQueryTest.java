@@ -39,6 +39,21 @@ class ProductListQueryTest {
     }
 
     @Test
+    void categoryFiltersOnlyAcceptPositiveIds() {
+        ProductListQuery query = query(1L, null, null);
+        query.setTopCategoryId(-1L);
+        query.setCategoryId(0L);
+
+        assertNull(query.normalizedTopCategoryId());
+        assertNull(query.normalizedCategoryId());
+
+        query.setTopCategoryId(2L);
+        query.setCategoryId(11L);
+        assertEquals(2L, query.normalizedTopCategoryId());
+        assertEquals(11L, query.normalizedCategoryId());
+    }
+
+    @Test
     void serviceAlwaysRequestsTenRows() {
         AtomicLong requestedSize = new AtomicLong();
         ProductMapper mapper = (ProductMapper) Proxy.newProxyInstance(

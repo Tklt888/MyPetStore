@@ -17,12 +17,15 @@ import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class AdminApplicationTest {
 
     @Test
     void homePageRendersAdminApplicationNameAndProductCount() {
-        ProductService productService = () -> 40L;
+        ProductService productService = mock(ProductService.class);
+        when(productService.countProducts()).thenReturn(40L);
         HomeController controller = new HomeController(productService);
         ExtendedModelMap model = new ExtendedModelMap();
         AdminPrincipal principal = new AdminPrincipal(4L, "admin", "hash", "商城管理员");

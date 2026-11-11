@@ -40,6 +40,9 @@ java -jar store-admin-web/target/store-admin-web-0.0.1-SNAPSHOT.jar
 
 启动后访问 <http://localhost:8081/>。
 
+首次访问会跳转到登录页 <http://localhost:8081/login>。实验演示管理员账号为 `admin`，
+初始密码为 `PetStore123!`。登录会话使用独立 Cookie `PETSTORE_ADMIN_SESSION`；退出必须通过页面中的 POST 表单完成，以保留 CSRF 防护。
+
 商品管理列表地址为 <http://localhost:8081/admin/products>，支持以下 GET 参数：
 
 - `keyword`：按商品名称或 SKU 模糊查询

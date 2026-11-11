@@ -1,6 +1,7 @@
 package org.csu.mypetstore.admin.config;
 
 import org.csu.mypetstore.admin.security.AdminAccountStatusFilter;
+import org.csu.mypetstore.admin.security.AdminAuthenticationFailureHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,16 +19,22 @@ public class SecurityConfig {
     }
 
     @Bean
+    public AdminAuthenticationFailureHandler adminAuthenticationFailureHandler() {
+        return new AdminAuthenticationFailureHandler();
+    }
+
+    @Bean
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http,
-            AdminAccountStatusFilter accountStatusFilter) throws Exception {
+            AdminAccountStatusFilter accountStatusFilter,
+            AdminAuthenticationFailureHandler authenticationFailureHandler) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/login").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .failureUrl("/login?error")
+                        .failureHandler(authenticationFailureHandler)
                         .defaultSuccessUrl("/", true)
                         .permitAll())
                 .logout(logout -> logout

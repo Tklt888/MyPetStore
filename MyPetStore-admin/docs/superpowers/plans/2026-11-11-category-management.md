@@ -33,7 +33,7 @@
 
 ---
 
-### 任务 1：分类模型与分页数据访问
+### Task 1：分类模型与分页数据访问
 
 **文件：**
 - 新建：`store-model/src/main/java/org/csu/mypetstore/model/Category.java`
@@ -75,7 +75,7 @@ git add store-model store-dao store-admin-web/src/test/java/org/csu/mypetstore/a
 git commit -m "feat: add category data access"
 ```
 
-### 任务 2：分类业务规则与事务写入
+### Task 2：分类业务规则与事务写入
 
 **文件：**
 - 新建：`store-model/src/main/java/org/csu/mypetstore/model/command/CategoryCreateCommand.java`
@@ -139,7 +139,7 @@ git add store-model store-dao store-service
 git commit -m "feat: add category business rules"
 ```
 
-### 任务 3：分类 MVC、表单与错误页面行为
+### Task 3：分类 MVC、表单与错误页面行为
 
 **文件：**
 - 新建：`store-admin-web/src/main/java/org/csu/mypetstore/admin/controller/CategoryController.java`
@@ -205,7 +205,7 @@ git add store-admin-web
 git commit -m "feat: add category management pages"
 ```
 
-### 任务 4：运行说明与真实数据库冒烟准备
+### Task 4：运行说明与真实数据库冒烟准备
 
 **文件：**
 - 修改：`README.md`

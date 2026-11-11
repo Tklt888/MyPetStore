@@ -49,6 +49,16 @@ java -jar store-admin-web/target/store-admin-web-0.0.1-SNAPSHOT.jar
 - `status`：按 `ON_SALE` 或 `DRAFT` 筛选
 - `page`：页码，每页固定 10 条
 
+登录后，商品管理还提供：
+
+- 新增商品：SKU 创建后不可修改，商品默认下架
+- 编辑资料：库存只读，保存时检查商品版本
+- 显式上架或下架；零库存商品允许上架但用户端应显示售罄
+- 独立增量补货：只增加库存，不接受绝对库存值
+- 版本冲突保护：购买、取消、补货或其他修改发生后，旧页面不能覆盖新数据
+
+启动后可按照 [商品维护验收清单](docs/verification/product-maintenance-checklist.md) 验证新增、编辑、上下架、补货及版本冲突。跨用户端可见性和双应用并发需要用户端对应功能完成后再验证。
+
 分类管理地址为 <http://localhost:8081/admin/categories>，提供以下能力：
 
 - 按一级分类分页展示完整的两级分类树，每页 10 个一级分类

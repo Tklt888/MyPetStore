@@ -13,7 +13,7 @@ class AdminAuthenticationFailureHandlerTest {
     @Test
     void failureStoresOnlyTrimmedBoundedUsername() throws Exception {
         MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setParameter("username", "  " + "x".repeat(60) + "  ");
+        request.setParameter("username", "\u3000" + "x".repeat(60) + "\u3000");
         request.setParameter("password", "must-not-enter-session");
         MockHttpServletResponse response = new MockHttpServletResponse();
         AdminAuthenticationFailureHandler handler = new AdminAuthenticationFailureHandler();

@@ -24,7 +24,7 @@ public class AdminAccountServiceImpl implements AdminAccountService {
         if (username == null) {
             return Optional.empty();
         }
-        String normalized = username.trim();
+        String normalized = username.strip();
         if (normalized.isEmpty() || normalized.length() > MAX_USERNAME_LENGTH) {
             return Optional.empty();
         }

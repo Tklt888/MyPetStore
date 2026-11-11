@@ -39,6 +39,7 @@ class AdminAccountServiceTest {
 
         assertTrue(service.findLoginAccount(null).isEmpty());
         assertTrue(service.findLoginAccount("   ").isEmpty());
+        assertTrue(service.findLoginAccount("\u3000\u3000").isEmpty());
         assertTrue(service.findLoginAccount("x".repeat(51)).isEmpty());
         assertEquals(0, queryCount.get());
     }

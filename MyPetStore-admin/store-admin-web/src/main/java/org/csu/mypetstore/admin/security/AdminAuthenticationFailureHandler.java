@@ -19,7 +19,7 @@ public class AdminAuthenticationFailureHandler implements AuthenticationFailureH
             HttpServletResponse response,
             AuthenticationException exception) throws IOException, ServletException {
         String submittedUsername = request.getParameter("username");
-        String safeUsername = submittedUsername == null ? "" : submittedUsername.trim();
+        String safeUsername = submittedUsername == null ? "" : submittedUsername.strip();
         if (safeUsername.length() > MAX_USERNAME_LENGTH) {
             safeUsername = safeUsername.substring(0, MAX_USERNAME_LENGTH);
         }

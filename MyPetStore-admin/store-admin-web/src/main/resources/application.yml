@@ -1,5 +1,9 @@
 server:
   port: 8081
+  servlet:
+    session:
+      cookie:
+        name: PETSTORE_ADMIN_SESSION
 
 spring:
   application:

@@ -49,4 +49,14 @@ java -jar store-admin-web/target/store-admin-web-0.0.1-SNAPSHOT.jar
 - `status`：按 `ON_SALE` 或 `DRAFT` 筛选
 - `page`：页码，每页固定 10 条
 
+分类管理地址为 <http://localhost:8081/admin/categories>，提供以下能力：
+
+- 按一级分类分页展示完整的两级分类树，每页 10 个一级分类
+- 新增一级分类，或在现有一级分类下新增二级分类
+- 编辑分类名称与排序；编码和父分类创建后不可修改
+- 删除无子分类且未被任何商品引用的分类
+- 拒绝重复编码、同级重名、第三级分类、负数排序及受引用删除
+
+启动后可按照 [分类管理验收清单](docs/verification/category-management-checklist.md) 完成浏览器验证。清单只要求使用你自己在终端设置的 `DB_PASSWORD`，不得把真实密码写入项目文件、截图或 Git 提交。
+
 应用默认连接本机 `MyPetStore` 数据库，用户名默认为 `root`，也可通过 `DB_USERNAME` 修改。真实用户名和密码只通过环境变量提供，不得提交到 Git。

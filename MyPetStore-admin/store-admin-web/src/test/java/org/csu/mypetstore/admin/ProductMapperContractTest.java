@@ -50,7 +50,7 @@ class ProductMapperContractTest {
         Method details = ProductMapper.class.getMethod("updateDetails", Long.class, Long.class,
                 String.class, String.class, String.class, String.class, BigDecimal.class, Integer.class, Long.class);
         Method status = ProductMapper.class.getMethod("updateStatus", Long.class, String.class, Long.class);
-        Method stock = ProductMapper.class.getMethod("incrementStock", Long.class, Integer.class, Long.class);
+        Method stock = ProductMapper.class.getMethod("incrementStock", Long.class, Integer.class);
 
         String detailSql = updateSqlOf(details);
         String setClause = detailSql.substring(detailSql.indexOf("SET"), detailSql.indexOf("WHERE"));
@@ -69,7 +69,8 @@ class ProductMapperContractTest {
         assertTrue(stockSql.contains("stock = stock + #{quantity}"));
         assertTrue(stockSql.contains("version = version + 1"));
         assertTrue(stockSql.contains("stock <= 2147483647 - #{quantity}"));
-        assertTrue(stockSql.contains("id = #{id} AND version = #{version}"));
+        assertTrue(stockSql.contains("id = #{id}"));
+        assertFalse(stockSql.contains("version = #{version}"));
     }
 
     @Test

@@ -13,6 +13,7 @@ import org.csu.mypetstore.service.impl.ProductServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import java.math.BigDecimal;
 
@@ -70,6 +71,12 @@ class ProductServiceTest {
                 () -> service.create(create("SKU", new BigDecimal("1.00"), 0, 0, "https://x/a.png")));
         ProductValidationException traversal = assertThrows(ProductValidationException.class,
                 () -> service.create(create("SKU", new BigDecimal("1.00"), 0, 0, "images/../a.png")));
+        ProductValidationException scheme = assertThrows(ProductValidationException.class,
+                () -> service.create(create("SKU", new BigDecimal("1.00"), 0, 0, "javascript:alert(1)")));
+        ProductValidationException data = assertThrows(ProductValidationException.class,
+                () -> service.create(create("SKU", new BigDecimal("1.00"), 0, 0, "data:image/svg+xml,x")));
+        ProductValidationException windows = assertThrows(ProductValidationException.class,
+                () -> service.create(create("SKU", new BigDecimal("1.00"), 0, 0, "C:\\Users\\x.png")));
 
         assertEquals("sku", blank.getField());
         assertEquals("price", scale.getField());
@@ -77,6 +84,9 @@ class ProductServiceTest {
         assertEquals("stock", negative.getField());
         assertEquals("coverImage", url.getField());
         assertEquals("coverImage", traversal.getField());
+        assertEquals("coverImage", scheme.getField());
+        assertEquals("coverImage", data.getField());
+        assertEquals("coverImage", windows.getField());
         verify(productMapper, never()).insert(any(Product.class));
     }
 
@@ -106,6 +116,25 @@ class ProductServiceTest {
     }
 
     @Test
+    void descriptionCapacityAndNonDuplicateIntegrityFailureUseAccurateSafeMessages() {
+        when(categoryMapper.selectById(11L)).thenReturn(category(11L, 1L));
+        String tooManyUtf8Bytes = "犬".repeat(21846);
+        ProductCreateCommand oversized = new ProductCreateCommand("SKU", 11L, "名称", null,
+                tooManyUtf8Bytes, "images/a.png", new BigDecimal("1.00"), 0, 0);
+        ProductValidationException length = assertThrows(ProductValidationException.class,
+                () -> service.create(oversized));
+        assertEquals("description", length.getField());
+
+        doThrow(new DataIntegrityViolationException("SQL foreign key fk_product_category"))
+                .when(productMapper).insert(any(Product.class));
+        ProductValidationException integrity = assertThrows(ProductValidationException.class,
+                () -> service.create(createForCategory(11L, "SKU")));
+        assertEquals("商品资料不符合数据库约束，请刷新后重试", integrity.getMessage());
+        assertFalse(integrity.getMessage().contains("SQL"));
+        assertFalse(integrity.getMessage().contains("SKU已存在"));
+    }
+
+    @Test
     void updateUsesOnlyEditableFieldsAndOldVersion() {
         when(productMapper.selectDetailById(8L)).thenReturn(view(8L, 3L, "DRAFT", 7, 2L));
         when(categoryMapper.selectById(12L)).thenReturn(category(12L, 1L));
@@ -116,7 +145,7 @@ class ProductServiceTest {
         verify(productMapper).updateDetails(8L, 12L, "新名称", "简介", "描述", "images/new.png",
                 new BigDecimal("20.00"), 3, 2L);
         verify(productMapper, never()).updateStatus(any(), any(), any());
-        verify(productMapper, never()).incrementStock(any(), any(), any());
+        verify(productMapper, never()).incrementStock(any(), any());
     }
 
     @Test
@@ -126,13 +155,10 @@ class ProductServiceTest {
         when(productMapper.selectDetailById(8L)).thenReturn(view(8L, 3L, "DRAFT", 7, 3L));
         when(productMapper.updateDetails(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(0);
         when(productMapper.updateStatus(8L, "ON_SALE", 2L)).thenReturn(0);
-        when(productMapper.incrementStock(8L, 3, 2L)).thenReturn(0);
 
         assertThrows(ProductConflictException.class, () -> service.update(8L, update(12L, 2L)));
         assertThrows(ProductConflictException.class,
                 () -> service.changeStatus(8L, new ProductStatusCommand("ON_SALE", 2L)));
-        assertThrows(ProductConflictException.class,
-                () -> service.restock(8L, new ProductRestockCommand(3, 2L)));
     }
 
     @Test
@@ -149,19 +175,19 @@ class ProductServiceTest {
     @Test
     void restockRequiresPositiveQuantityAndReturnsDatabaseResult() {
         assertThrows(ProductValidationException.class,
-                () -> service.restock(8L, new ProductRestockCommand(0, 2L)));
+                () -> service.restock(8L, new ProductRestockCommand(0)));
 
         when(productMapper.selectDetailById(8L))
                 .thenReturn(view(8L, 3L, "DRAFT", Integer.MAX_VALUE, 2L));
-        when(productMapper.incrementStock(8L, 1, 2L)).thenReturn(0);
+        when(productMapper.incrementStock(8L, 1)).thenReturn(0);
         assertThrows(ProductValidationException.class,
-                () -> service.restock(8L, new ProductRestockCommand(1, 2L)));
+                () -> service.restock(8L, new ProductRestockCommand(1)));
 
         ProductEditView updated = view(8L, 3L, "DRAFT", 13, 3L);
         when(productMapper.selectDetailById(8L))
                 .thenReturn(view(8L, 3L, "DRAFT", 10, 2L), updated);
-        when(productMapper.incrementStock(8L, 3, 2L)).thenReturn(1);
-        assertEquals(13, service.restock(8L, new ProductRestockCommand(3, 2L)).stock());
+        when(productMapper.incrementStock(8L, 3)).thenReturn(1);
+        assertEquals(13, service.restock(8L, new ProductRestockCommand(3)).stock());
     }
 
     @Test

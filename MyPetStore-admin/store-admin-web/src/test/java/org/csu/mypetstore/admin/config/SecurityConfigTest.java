@@ -61,6 +61,12 @@ class SecurityConfigTest {
         mockMvc.perform(post("/admin/categories/1/delete")
                         .with(user("admin").roles("ADMIN")))
                 .andExpect(status().isForbidden());
+        mockMvc.perform(post("/admin/products")
+                        .with(user("admin").roles("ADMIN")))
+                .andExpect(status().isForbidden());
+        mockMvc.perform(post("/admin/products/1/status")
+                        .with(user("admin").roles("ADMIN")))
+                .andExpect(status().isForbidden());
     }
 
     @SpringBootConfiguration

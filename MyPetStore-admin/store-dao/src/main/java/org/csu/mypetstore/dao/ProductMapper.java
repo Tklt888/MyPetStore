@@ -78,8 +78,7 @@ public interface ProductMapper extends BaseMapper<Product> {
 
     @Update("""
             UPDATE product SET stock = stock + #{quantity}, version = version + 1
-             WHERE id = #{id} AND version = #{version}
-               AND stock <= 2147483647 - #{quantity}
+             WHERE id = #{id} AND stock <= 2147483647 - #{quantity}
             """)
-    int incrementStock(@Param("id") Long id, @Param("quantity") Integer quantity, @Param("version") Long version);
+    int incrementStock(@Param("id") Long id, @Param("quantity") Integer quantity);
 }

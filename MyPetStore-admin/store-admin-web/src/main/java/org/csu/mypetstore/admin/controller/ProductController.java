@@ -1,6 +1,7 @@
 package org.csu.mypetstore.admin.controller;
 
 import jakarta.validation.Valid;
+import jakarta.servlet.http.HttpServletResponse;
 import org.csu.mypetstore.admin.form.ProductCreateForm;
 import org.csu.mypetstore.admin.form.ProductRestockForm;
 import org.csu.mypetstore.admin.form.ProductUpdateForm;
@@ -24,6 +25,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.LinkedHashMap;
+import java.util.List;
+
 @Controller
 public class ProductController {
     private final ProductQueryService queryService;
@@ -38,7 +42,11 @@ public class ProductController {
     public String list(ProductListQuery query, Model model) {
         model.addAttribute("page", queryService.findProducts(query));
         model.addAttribute("query", query);
-        model.addAttribute("categoryOptions", productService.listCategoryOptions());
+        List<org.csu.mypetstore.model.dto.ProductCategoryOption> options = productService.listCategoryOptions();
+        model.addAttribute("categoryOptions", options);
+        LinkedHashMap<Long, org.csu.mypetstore.model.dto.ProductCategoryOption> parents = new LinkedHashMap<>();
+        options.forEach(option -> parents.putIfAbsent(option.parentId(), option));
+        model.addAttribute("topCategoryOptions", List.copyOf(parents.values()));
         return "product/list";
     }
 
@@ -51,12 +59,13 @@ public class ProductController {
 
     @PostMapping("/admin/products")
     public String create(@Valid @ModelAttribute("form") ProductCreateForm form, BindingResult errors,
-                         Model model, RedirectAttributes redirect) {
+                         Model model, RedirectAttributes redirect, HttpServletResponse response) {
         if (!errors.hasErrors()) {
             try { productService.create(toCommand(form)); }
             catch (ProductValidationException exception) { reject(errors, exception); }
         }
         if (errors.hasErrors()) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             model.addAttribute("errorMessage", firstError(errors));
             prepareForm(model, false, null);
             return "product/form";
@@ -75,13 +84,19 @@ public class ProductController {
 
     @PostMapping("/admin/products/{id}")
     public String update(@PathVariable long id, @Valid @ModelAttribute("form") ProductUpdateForm form,
-                         BindingResult errors, Model model, RedirectAttributes redirect) {
+                         BindingResult errors, Model model, RedirectAttributes redirect, HttpServletResponse response) {
         if (!errors.hasErrors()) {
             try { productService.update(id, toCommand(form)); }
             catch (ProductValidationException exception) { reject(errors, exception); }
-            catch (ProductConflictException exception) { errors.reject("product.conflict", exception.getMessage()); }
+            catch (ProductConflictException exception) {
+                errors.reject("product.conflict", exception.getMessage());
+                response.setStatus(HttpServletResponse.SC_CONFLICT);
+            }
         }
         if (errors.hasErrors()) {
+            if (response.getStatus() != HttpServletResponse.SC_CONFLICT) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
             ProductEditView current = productService.getForEdit(id);
             model.addAttribute("errorMessage", firstError(errors));
             prepareForm(model, true, current);
@@ -107,7 +122,6 @@ public class ProductController {
     public String restockForm(@PathVariable long id, Model model) {
         ProductEditView product = productService.getForEdit(id);
         ProductRestockForm form = new ProductRestockForm();
-        form.setVersion(product.version());
         model.addAttribute("form", form);
         model.addAttribute("product", product);
         return "product/restock";
@@ -115,13 +129,19 @@ public class ProductController {
 
     @PostMapping("/admin/products/{id}/restock")
     public String restock(@PathVariable long id, @Valid @ModelAttribute("form") ProductRestockForm form,
-                          BindingResult errors, Model model, RedirectAttributes redirect) {
+                          BindingResult errors, Model model, RedirectAttributes redirect, HttpServletResponse response) {
         if (!errors.hasErrors()) {
-            try { productService.restock(id, new ProductRestockCommand(form.getQuantity(), form.getVersion())); }
+            try { productService.restock(id, new ProductRestockCommand(form.getQuantity())); }
             catch (ProductValidationException exception) { reject(errors, exception); }
-            catch (ProductConflictException exception) { errors.reject("product.conflict", exception.getMessage()); }
+            catch (ProductConflictException exception) {
+                errors.reject("product.conflict", exception.getMessage());
+                response.setStatus(HttpServletResponse.SC_CONFLICT);
+            }
         }
         if (errors.hasErrors()) {
+            if (response.getStatus() != HttpServletResponse.SC_CONFLICT) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
             model.addAttribute("product", productService.getForEdit(id));
             model.addAttribute("errorMessage", firstError(errors));
             return "product/restock";

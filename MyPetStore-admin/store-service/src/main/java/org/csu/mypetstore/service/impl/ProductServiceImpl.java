@@ -15,10 +15,12 @@ import org.csu.mypetstore.service.ProductNotFoundException;
 import org.csu.mypetstore.service.ProductService;
 import org.csu.mypetstore.service.ProductValidationException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Set;
 
@@ -54,7 +56,7 @@ public class ProductServiceImpl implements ProductService {
         Long categoryId = validCategory(command.categoryId());
         String name = required(command.name(), 120, "name", "商品名称不能为空", "商品名称不能超过120个字符");
         String summary = optional(command.summary(), 500, "summary", "简介不能超过500个字符");
-        String description = optional(command.description(), Integer.MAX_VALUE, "description", "描述过长");
+        String description = validDescription(command.description());
         String cover = validCover(command.coverImage());
         BigDecimal price = validPrice(command.price());
         int stock = nonNegative(command.stock(), "stock", "初始库存必须是非负整数");
@@ -76,8 +78,10 @@ public class ProductServiceImpl implements ProductService {
         product.setVersion(0L);
         try {
             productMapper.insert(product);
-        } catch (DataIntegrityViolationException exception) {
+        } catch (DuplicateKeyException exception) {
             throw new ProductValidationException("sku", "SKU已存在");
+        } catch (DataIntegrityViolationException exception) {
+            throw new ProductValidationException(null, "商品资料不符合数据库约束，请刷新后重试");
         }
         return product.getId() == null ? 0L : product.getId();
     }
@@ -89,7 +93,7 @@ public class ProductServiceImpl implements ProductService {
         Long categoryId = validCategory(command.categoryId());
         String name = required(command.name(), 120, "name", "商品名称不能为空", "商品名称不能超过120个字符");
         String summary = optional(command.summary(), 500, "summary", "简介不能超过500个字符");
-        String description = optional(command.description(), Integer.MAX_VALUE, "description", "描述过长");
+        String description = validDescription(command.description());
         String cover = validCover(command.coverImage());
         BigDecimal price = validPrice(command.price());
         int sort = nonNegative(command.sortOrder(), "sortOrder", "排序必须是非负整数");
@@ -126,16 +130,15 @@ public class ProductServiceImpl implements ProductService {
         if (quantity == null || quantity <= 0) {
             throw new ProductValidationException("quantity", "补货数量必须是正整数");
         }
-        long version = validVersion(command.version());
         ProductEditView before = findRequired(id);
-        int changed = productMapper.incrementStock(id, quantity, version);
+        int changed = productMapper.incrementStock(id, quantity);
         if (changed == 0) {
             ProductEditView current = productMapper.selectDetailById(id);
             if (current == null) throw new ProductNotFoundException(id);
-            if (current.version().equals(version) && before.stock() > Integer.MAX_VALUE - quantity) {
+            if (before.stock() > Integer.MAX_VALUE - quantity) {
                 throw new ProductValidationException("quantity", "补货后库存超出允许范围");
             }
-            throw new ProductConflictException();
+            throw new ProductValidationException(null, "补货失败，请刷新后重试");
         }
         return findRequired(id);
     }
@@ -177,10 +180,18 @@ public class ProductServiceImpl implements ProductService {
 
     private String validCover(String value) {
         String cover = required(value, 255, "coverImage", "封面路径不能为空", "封面路径不能超过255个字符");
-        if (cover.startsWith("/") || cover.startsWith("\\") || cover.contains("://") || cover.contains("..")) {
+        if (!cover.matches("[A-Za-z0-9][A-Za-z0-9/_\\-.]*") || cover.contains("..") || cover.contains("\\")) {
             throw new ProductValidationException("coverImage", "封面必须是安全的站内相对路径");
         }
         return cover;
+    }
+
+    private String validDescription(String value) {
+        String description = optional(value, Integer.MAX_VALUE, "description", "描述过长");
+        if (description != null && description.getBytes(StandardCharsets.UTF_8).length > 65_535) {
+            throw new ProductValidationException("description", "描述不能超过65535字节");
+        }
+        return description;
     }
 
     private BigDecimal validPrice(BigDecimal price) {

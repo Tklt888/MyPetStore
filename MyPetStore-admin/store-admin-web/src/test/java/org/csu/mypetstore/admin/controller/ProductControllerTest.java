@@ -21,6 +21,9 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockServletContext;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.spring6.SpringTemplateEngine;
@@ -38,6 +41,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class ProductControllerTest {
 
@@ -68,6 +74,24 @@ class ProductControllerTest {
     }
 
     @Test
+    void topLevelFilterIsRenderedAndPreservedInPagingLinks() {
+        ProductListQuery query = query(2L, null, null);
+        query.setTopCategoryId(1L);
+        Page<ProductListItem> page = new Page<>(2, 10, 31);
+        page.setRecords(List.of());
+        WebContext context = webContext();
+        context.setVariable("page", page); context.setVariable("query", query);
+        context.setVariable("categoryOptions", List.of(new ProductCategoryOption(11L, 1L, "犬类", "宠物犬")));
+        context.setVariable("topCategoryOptions", List.of(new ProductCategoryOption(11L, 1L, "犬类", "宠物犬")));
+        context.setVariable("message", null); context.setVariable("error", null);
+
+        String html = templateEngine().process("product/list", context);
+
+        assertTrue(html.contains("name=\"topCategoryId\""));
+        assertTrue(html.contains("topCategoryId=1"));
+    }
+
+    @Test
     void newFormUsesSafeDefaultsAndSecondLevelOptions() {
         ExtendedModelMap model = new ExtendedModelMap();
 
@@ -84,7 +108,8 @@ class ProductControllerTest {
         ProductCreateForm form = createForm();
         BeanPropertyBindingResult errors = new BeanPropertyBindingResult(form, "form");
 
-        String view = controller.create(form, errors, new ExtendedModelMap(), new RedirectAttributesModelMap());
+        String view = controller.create(form, errors, new ExtendedModelMap(), new RedirectAttributesModelMap(),
+                new MockHttpServletResponse());
 
         assertEquals("redirect:/admin/products", view);
         verify(productService).create(any(ProductCreateCommand.class));
@@ -102,7 +127,8 @@ class ProductControllerTest {
 
         BeanPropertyBindingResult errors = new BeanPropertyBindingResult(form, "form");
         assertEquals("redirect:/admin/products",
-                controller.update(8L, form, errors, new ExtendedModelMap(), new RedirectAttributesModelMap()));
+                controller.update(8L, form, errors, new ExtendedModelMap(), new RedirectAttributesModelMap(),
+                        new MockHttpServletResponse()));
         verify(productService).update(any(Long.class), any(ProductUpdateCommand.class));
     }
 
@@ -115,11 +141,51 @@ class ProductControllerTest {
 
         ProductRestockForm form = new ProductRestockForm();
         form.setQuantity(3);
-        form.setVersion(2L);
         BeanPropertyBindingResult errors = new BeanPropertyBindingResult(form, "form");
-        when(productService.restock(8L, new ProductRestockCommand(3, 2L))).thenReturn(view());
+        when(productService.restock(8L, new ProductRestockCommand(3))).thenReturn(view());
         assertEquals("redirect:/admin/products",
-                controller.restock(8L, form, errors, new ExtendedModelMap(), redirect));
+                controller.restock(8L, form, errors, new ExtendedModelMap(), redirect,
+                        new MockHttpServletResponse()));
+    }
+
+    @Test
+    void validationAndConflictResponsesUse400And409() {
+        ProductCreateForm invalid = createForm();
+        BeanPropertyBindingResult createErrors = new BeanPropertyBindingResult(invalid, "form");
+        createErrors.rejectValue("name", "invalid", "商品名称不能为空");
+        MockHttpServletResponse createResponse = new MockHttpServletResponse();
+        controller.create(invalid, createErrors, new ExtendedModelMap(), new RedirectAttributesModelMap(), createResponse);
+        assertEquals(400, createResponse.getStatus());
+
+        ProductUpdateForm update = new ProductUpdateForm();
+        update.setCategoryId(11L); update.setName("商品"); update.setCoverImage("images/a.png");
+        update.setPrice(new BigDecimal("10.00")); update.setSortOrder(0); update.setVersion(1L);
+        when(productService.getForEdit(8L)).thenReturn(view());
+        org.mockito.Mockito.doThrow(new org.csu.mypetstore.service.ProductConflictException())
+                .when(productService).update(any(Long.class), any(ProductUpdateCommand.class));
+        MockHttpServletResponse updateResponse = new MockHttpServletResponse();
+        controller.update(8L, update, new BeanPropertyBindingResult(update, "form"), new ExtendedModelMap(),
+                new RedirectAttributesModelMap(), updateResponse);
+        assertEquals(409, updateResponse.getStatus());
+    }
+
+    @Test
+    void actualRequestBindingValidatesInputAndIgnoresForgedReadOnlyFields() throws Exception {
+        LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        validator.afterPropertiesSet();
+        MockMvc mvc = MockMvcBuilders.standaloneSetup(controller).setValidator(validator).build();
+
+        mvc.perform(post("/admin/products").param("sku", " "))
+                .andExpect(status().isBadRequest());
+
+        mvc.perform(post("/admin/products/8")
+                        .param("categoryId", "11").param("name", "商品")
+                        .param("coverImage", "images/a.png").param("price", "10.00")
+                        .param("sortOrder", "0").param("version", "2")
+                        .param("sku", "FORGED").param("stock", "9999").param("status", "ON_SALE"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/admin/products"));
+        verify(productService).update(any(Long.class), any(ProductUpdateCommand.class));
     }
 
     @Test
@@ -131,6 +197,7 @@ class ProductControllerTest {
         context.setVariable("page", page);
         context.setVariable("query", query);
         context.setVariable("categoryOptions", List.of());
+        context.setVariable("topCategoryOptions", List.of());
         context.setVariable("message", null);
         context.setVariable("error", null);
 
@@ -142,6 +209,28 @@ class ProductControllerTest {
         assertTrue(html.contains("page=1"));
         assertTrue(html.contains("page=2"));
         assertFalse(html.contains("删除商品"));
+    }
+
+    @Test
+    void nonEmptyListRendersRealEditStatusAndRestockControls() {
+        ProductListQuery query = query(1L, null, null);
+        Page<ProductListItem> page = new Page<>(1, 10, 1);
+        ProductListItem item = new ProductListItem();
+        item.setId(8L); item.setSku("SKU-8"); item.setName("商品"); item.setCategoryName("宠物犬");
+        item.setTopCategoryName("犬类"); item.setPrice(new BigDecimal("10.00")); item.setStock(0);
+        item.setStatus("DRAFT"); item.setSortOrder(0); item.setVersion(2L);
+        page.setRecords(List.of(item));
+        WebContext context = webContext();
+        context.setVariable("page", page); context.setVariable("query", query);
+        context.setVariable("categoryOptions", List.of()); context.setVariable("message", null); context.setVariable("error", null);
+        context.setVariable("topCategoryOptions", List.of());
+
+        String html = templateEngine().process("product/list", context);
+
+        assertTrue(html.contains("/admin/products/8/edit"));
+        assertTrue(html.contains("/admin/products/8/restock"));
+        assertTrue(html.contains("/admin/products/8/status"));
+        assertTrue(html.contains("name=\"version\" value=\"2\""));
     }
 
     private ProductCreateForm createForm() {

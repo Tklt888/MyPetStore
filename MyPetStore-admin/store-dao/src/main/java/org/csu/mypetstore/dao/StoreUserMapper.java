@@ -1,13 +1,33 @@
 package org.csu.mypetstore.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.csu.mypetstore.model.StoreUser;
+import org.csu.mypetstore.model.dto.CustomerListItem;
 
 @Mapper
 public interface StoreUserMapper extends BaseMapper<StoreUser> {
+
+    @Select("""
+            <script>
+            SELECT id, username, display_name AS displayName, email, phone,
+                   status, created_at AS createdAt
+              FROM store_user
+             <where>
+               role = 'CUSTOMER'
+               <if test="keywordPattern != null">AND username LIKE CONCAT('%', #{keywordPattern}, '%') ESCAPE '\\'</if>
+               <if test="status != null">AND status = #{status}</if>
+             </where>
+             ORDER BY id ASC
+            </script>
+            """)
+    IPage<CustomerListItem> selectCustomerPage(Page<CustomerListItem> page,
+                                                @Param("keywordPattern") String keywordPattern,
+                                                @Param("status") String status);
 
     @Select("""
             SELECT id, username, password_hash, display_name, role, status

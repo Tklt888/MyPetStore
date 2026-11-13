@@ -127,6 +127,41 @@ class OrderControllerTest {
         org.junit.jupiter.api.Assertions.assertTrue(html.contains("name=\"_csrf\""));
     }
 
+    @Test
+    void orderListTemplateRendersPageSizeOptions() {
+        WebContext context = webContext();
+        Page<OrderListItem> page = new Page<>(1, 10, 0);
+        org.csu.mypetstore.model.query.OrderListQuery query = new org.csu.mypetstore.model.query.OrderListQuery();
+        query.setPage(1L); query.setPageSize(10L); query.normalize();
+        context.setVariable("page", page); context.setVariable("query", query);
+        context.setVariable("statusLabels", Map.of("PAID", "已支付"));
+        context.setVariable("pageSizeOptions", List.of(10L, 20L, 50L));
+
+        String html = templateEngine().process("order/list", context);
+
+        org.junit.jupiter.api.Assertions.assertTrue(html.contains("每页 10 条"));
+        org.junit.jupiter.api.Assertions.assertTrue(html.contains("没有找到符合条件的订单"));
+    }
+
+    @Test
+    void detailTemplateDisplaysShippingCompletionAndCancellationTimes() {
+        LocalDateTime created = LocalDateTime.of(2026, 11, 13, 10, 0);
+        OrderDetail order = new OrderDetail(8L, "ORD-1", 2L, "customer", "顾客", "COMPLETED",
+                new BigDecimal("25.00"), "张三", "13800000000", "长沙市", created, created,
+                "MOCK", "PAY-1", created.plusMinutes(1), null,
+                created.plusHours(1), created.plusHours(2), List.of());
+        WebContext context = webContext();
+        context.setVariable("order", order); context.setVariable("statusLabels", Map.of("COMPLETED", "已完成"));
+        context.setVariable("message", null); context.setVariable("error", null);
+
+        String html = templateEngine().process("order/detail", context);
+
+        org.junit.jupiter.api.Assertions.assertTrue(html.contains("发货时间"));
+        org.junit.jupiter.api.Assertions.assertTrue(html.contains("完成时间"));
+        org.junit.jupiter.api.Assertions.assertTrue(html.contains("2026-11-13 11:00:00"));
+        org.junit.jupiter.api.Assertions.assertTrue(html.contains("2026-11-13 12:00:00"));
+    }
+
     private WebContext webContext() {
         MockServletContext servletContext = new MockServletContext();
         return new WebContext(JakartaServletWebApplication.buildApplication(servletContext)

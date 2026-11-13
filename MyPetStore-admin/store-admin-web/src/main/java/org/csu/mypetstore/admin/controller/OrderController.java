@@ -37,6 +37,7 @@ public class OrderController {
         model.addAttribute("page", queryService.findOrders(query));
         model.addAttribute("query", query);
         model.addAttribute("statusLabels", STATUS_LABELS);
+        model.addAttribute("pageSizeOptions", java.util.List.of(10L, 20L, 50L));
         return "order/list";
     }
 

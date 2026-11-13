@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.csu.mypetstore.dao.SalesOrderMapper;
+import org.csu.mypetstore.model.dto.OrderDetail;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
@@ -12,6 +13,13 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class OrderMapperContractTest {
+
+    @Test
+    void orderDetailSupportsMybatisPropertyMapping() throws Exception {
+        OrderDetail.class.getDeclaredConstructor();
+        OrderDetail.class.getMethod("setId", Long.class);
+        OrderDetail.class.getMethod("setItems", java.util.List.class);
+    }
 
     @Test
     void listUsesExactFiltersAndNewestFirst() throws Exception {

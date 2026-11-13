@@ -30,7 +30,7 @@
 
 ---
 
-### 任务 1：订单领域模型与查询参数
+### Task 1: 订单领域模型与查询参数
 
 **Files:**
 - Create: `store-model/src/main/java/org/csu/mypetstore/model/SalesOrder.java`
@@ -73,7 +73,7 @@
   git commit -m "feat: add order query model"
   ```
 
-### 任务 2：订单查询数据访问与服务
+### Task 2: 订单查询数据访问与服务
 
 **Files:**
 - Create: `store-dao/src/main/java/org/csu/mypetstore/dao/SalesOrderMapper.java`
@@ -120,7 +120,7 @@
   git commit -m "feat: add order query services"
   ```
 
-### 任务 3：原子发货服务
+### Task 3: 原子发货服务
 
 **Files:**
 - Modify: `store-dao/src/main/java/org/csu/mypetstore/dao/SalesOrderMapper.java`
@@ -167,7 +167,7 @@
   git commit -m "feat: add atomic order shipping"
   ```
 
-### 任务 4：订单 Web 页面与安全行为
+### Task 4: 订单 Web 页面与安全行为
 
 **Files:**
 - Create: `store-admin-web/src/main/java/org/csu/mypetstore/admin/controller/OrderController.java`
@@ -221,7 +221,7 @@
   git commit -m "feat: add admin order pages"
   ```
 
-### 任务 5：全量回归与验收资料
+### Task 5: 全量回归与验收资料
 
 **Files:**
 - Create: `docs/verification/order-management-checklist.md`

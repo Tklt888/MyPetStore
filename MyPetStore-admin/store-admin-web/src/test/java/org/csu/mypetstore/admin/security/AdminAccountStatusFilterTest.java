@@ -42,15 +42,17 @@ class AdminAccountStatusFilterTest {
     void inactiveAdminLosesAuthenticationAndSession() throws Exception {
         AdminAccountStatusFilter filter = new AdminAccountStatusFilter(accountService(false, new AtomicInteger()));
         authenticateAdmin();
-        MockHttpServletRequest request = request("/admin/products");
+        MockHttpServletRequest request = request("/admin/customers/7/status");
         MockHttpSession session = (MockHttpSession) request.getSession();
         MockHttpServletResponse response = new MockHttpServletResponse();
+        AtomicInteger chainCalls = new AtomicInteger();
 
-        filter.doFilter(request, response, countingChain(new AtomicInteger()));
+        filter.doFilter(request, response, countingChain(chainCalls));
 
         assertNull(SecurityContextHolder.getContext().getAuthentication());
         assertTrue(session.isInvalid());
         assertEquals("/login?expired", response.getRedirectedUrl());
+        assertEquals(0, chainCalls.get());
     }
 
     @Test

@@ -3,6 +3,7 @@ package org.csu.mypetstore.admin.config;
 import org.csu.mypetstore.model.dto.AdminAccount;
 import org.csu.mypetstore.service.AdminAccountService;
 import org.csu.mypetstore.admin.security.AdminAccountStatusFilter;
+import org.csu.mypetstore.admin.security.AdminPrincipal;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootConfiguration;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
@@ -50,6 +53,9 @@ class SecurityConfigTest {
         mockMvc.perform(get("/admin/orders"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrlPattern("**/login"));
+        mockMvc.perform(get("/admin/customers"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrlPattern("**/login"));
         mockMvc.perform(get("/admin/unknown"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrlPattern("**/login"));
@@ -73,6 +79,21 @@ class SecurityConfigTest {
         mockMvc.perform(post("/admin/orders/1/ship")
                         .with(user("admin").roles("ADMIN")))
                 .andExpect(status().isForbidden());
+        mockMvc.perform(post("/admin/customers/1/status")
+                        .with(user("admin").roles("ADMIN")))
+                .andExpect(status().isForbidden());
+        mockMvc.perform(post("/admin/customers/1/status").with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrlPattern("**/login"));
+    }
+
+    @Test
+    void authenticatedAdminWithCsrfCanReachCustomerStatusEndpoint() throws Exception {
+        AdminPrincipal principal = new AdminPrincipal(4L, "admin", "hash", "商城管理员");
+        var token = org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+                .authenticated(principal, null, principal.getAuthorities());
+        mockMvc.perform(post("/admin/customers/1/status").with(authentication(token)).with(csrf()))
+                .andExpect(status().isOk());
     }
 
     @SpringBootConfiguration
@@ -105,9 +126,12 @@ class SecurityConfigTest {
     @RestController
     static class TestController {
 
-        @GetMapping({"/login", "/", "/admin/products", "/admin/categories", "/admin/orders"})
+        @GetMapping({"/login", "/", "/admin/products", "/admin/categories", "/admin/orders", "/admin/customers"})
         String page() {
             return "ok";
         }
+
+        @org.springframework.web.bind.annotation.PostMapping("/admin/customers/{id}/status")
+        String customerStatus() { return "ok"; }
     }
 }

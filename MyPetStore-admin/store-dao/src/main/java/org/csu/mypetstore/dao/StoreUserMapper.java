@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.csu.mypetstore.model.StoreUser;
 import org.csu.mypetstore.model.dto.CustomerListItem;
 
@@ -42,4 +43,23 @@ public interface StoreUserMapper extends BaseMapper<StoreUser> {
              WHERE id = #{userId}
             """)
     StoreUser selectRoleStatusById(@Param("userId") Long userId);
+
+    @Update("""
+            UPDATE store_user
+               SET status = #{targetStatus}
+             WHERE id = #{id}
+               AND role = 'CUSTOMER'
+               AND status = #{oldStatus}
+            """)
+    int updateCustomerStatus(@Param("id") Long userId,
+                             @Param("oldStatus") String oldStatus,
+                             @Param("targetStatus") String targetStatus);
+
+    @Select("""
+            SELECT id, role, status
+              FROM store_user
+             WHERE id = #{userId}
+             FOR UPDATE
+            """)
+    StoreUser selectRoleStatusForUpdate(@Param("userId") Long userId);
 }

@@ -47,6 +47,9 @@ class SecurityConfigTest {
         mockMvc.perform(get("/admin/categories"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrlPattern("**/login"));
+        mockMvc.perform(get("/admin/orders"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrlPattern("**/login"));
         mockMvc.perform(get("/admin/unknown"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrlPattern("**/login"));
@@ -65,6 +68,9 @@ class SecurityConfigTest {
                         .with(user("admin").roles("ADMIN")))
                 .andExpect(status().isForbidden());
         mockMvc.perform(post("/admin/products/1/status")
+                        .with(user("admin").roles("ADMIN")))
+                .andExpect(status().isForbidden());
+        mockMvc.perform(post("/admin/orders/1/ship")
                         .with(user("admin").roles("ADMIN")))
                 .andExpect(status().isForbidden());
     }
@@ -99,7 +105,7 @@ class SecurityConfigTest {
     @RestController
     static class TestController {
 
-        @GetMapping({"/login", "/", "/admin/products", "/admin/categories"})
+        @GetMapping({"/login", "/", "/admin/products", "/admin/categories", "/admin/orders"})
         String page() {
             return "ok";
         }

@@ -69,4 +69,14 @@ java -jar store-admin-web/target/store-admin-web-0.0.1-SNAPSHOT.jar
 
 启动后可按照 [分类管理验收清单](docs/verification/category-management-checklist.md) 完成浏览器验证。清单只要求使用你自己在终端设置的 `DB_PASSWORD`，不得把真实密码写入项目文件、截图或 Git 提交。
 
+订单管理地址为 <http://localhost:8081/admin/orders>，提供以下能力：
+
+- 按完整订单号和五种订单状态组合筛选
+- 使用每页 10、20 或 50 条分页，并保留筛选条件
+- 查看用户、收货信息、状态时间线和不可变的商品成交快照
+- 仅对已支付订单执行一次 `PAID -> SHIPPED` 发货
+- 并发或重复发货不会覆盖首次发货时间，也不会修改金额、库存和支付信息
+
+启动后可按照 [订单管理验收清单](docs/verification/order-management-checklist.md) 验证查询、详情和发货。双应用状态一致性需要用户端订单与模拟支付功能完成后再验证。
+
 应用默认连接本机 `MyPetStore` 数据库，用户名默认为 `root`，也可通过 `DB_USERNAME` 修改。真实用户名和密码只通过环境变量提供，不得提交到 Git。

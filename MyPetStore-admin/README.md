@@ -79,4 +79,14 @@ java -jar store-admin-web/target/store-admin-web-0.0.1-SNAPSHOT.jar
 
 启动后可按照 [订单管理验收清单](docs/verification/order-management-checklist.md) 验证查询、详情和发货。双应用状态一致性需要用户端订单与模拟支付功能完成后再验证。
 
+客户管理地址为 <http://localhost:8081/admin/customers>，提供以下能力：
+
+- 仅查询普通客户，按用户名和启用状态组合筛选，支持每页 1—50 条
+- 将 `%`、`_` 和反斜杠作为普通用户名字符搜索，避免通配符扩大结果
+- 通过带 CSRF 防护的表单启用或禁用客户账号
+- 使用 ID、普通客户角色和旧状态进行条件更新，重复请求不会再次写入
+- 不查询或展示密码散列，也不提供角色、资料或管理员账号编辑入口
+
+启动后可按照 [客户管理验收清单](docs/verification/customer-management-checklist.md) 验证查询和启停。用户端旧会话的持久撤销尚未实现，因此不得把管理端禁用成功视为双应用会话验收完成。
+
 应用默认连接本机 `MyPetStore` 数据库，用户名默认为 `root`，也可通过 `DB_USERNAME` 修改。真实用户名和密码只通过环境变量提供，不得提交到 Git。

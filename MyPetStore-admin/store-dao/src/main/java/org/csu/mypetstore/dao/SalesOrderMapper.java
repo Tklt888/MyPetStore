@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.csu.mypetstore.model.SalesOrder;
 import org.csu.mypetstore.model.dto.OrderDetail;
 import org.csu.mypetstore.model.dto.OrderItemSnapshot;
@@ -58,4 +59,11 @@ public interface SalesOrderMapper extends BaseMapper<SalesOrder> {
              ORDER BY id ASC
             """)
     List<OrderItemSnapshot> selectOrderItems(@Param("orderId") Long orderId);
+
+    @Update("""
+            UPDATE sales_order
+               SET status = 'SHIPPED', shipped_at = CURRENT_TIMESTAMP
+             WHERE id = #{id} AND status = 'PAID'
+            """)
+    int markShippedIfPaid(@Param("id") Long id);
 }

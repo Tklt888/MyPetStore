@@ -2,6 +2,7 @@ package org.csu.mypetstore.admin;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.csu.mypetstore.dao.SalesOrderMapper;
 import org.junit.jupiter.api.Test;
 
@@ -33,6 +34,20 @@ class OrderMapperContractTest {
         assertTrue(items.contains("FROM sales_order_item"));
         assertTrue(items.contains("ORDER BY id ASC"));
         assertFalse(items.contains("JOIN product"));
+    }
+
+    @Test
+    void shippingOnlyChangesStatusAndFirstShippingTimeForPaidOrder() throws Exception {
+        Method method = SalesOrderMapper.class.getMethod("markShippedIfPaid", Long.class);
+        String sql = String.join("\n", method.getAnnotation(Update.class).value());
+        String set = sql.substring(sql.indexOf("SET"), sql.indexOf("WHERE"));
+
+        assertTrue(set.contains("status = 'SHIPPED'"));
+        assertTrue(set.contains("shipped_at = CURRENT_TIMESTAMP"));
+        assertTrue(sql.contains("id = #{id} AND status = 'PAID'"));
+        assertFalse(set.contains("total_amount"));
+        assertFalse(set.contains("payment"));
+        assertFalse(set.contains("stock"));
     }
 
     private String selectSql(Method method) {

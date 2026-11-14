@@ -28,7 +28,7 @@ public class CustomerListQuery {
         if (value == null || value.isBlank()) return null;
         String trimmed = value.strip();
         if (trimmed.length() > 50) throw new IllegalArgumentException("用户名搜索不能超过50个字符");
-        return trimmed.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_");
+        return trimmed.replace("!", "!!").replace("%", "!%").replace("_", "!_");
     }
 
     private String normalizeStatus(String value) {

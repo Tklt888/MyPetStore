@@ -26,7 +26,7 @@ class CustomerQueryServiceTest {
         new CustomerQueryServiceImpl(mapper).findCustomers(query);
 
         ArgumentCaptor<Page<CustomerListItem>> page = ArgumentCaptor.forClass(Page.class);
-        verify(mapper).selectCustomerPage(page.capture(), eq("a\\_b\\%"), eq("ENABLED"));
+        verify(mapper).selectCustomerPage(page.capture(), eq("a!_b!%"), eq("ENABLED"));
         assertEquals(3L, page.getValue().getCurrent());
         assertEquals(25L, page.getValue().getSize());
     }

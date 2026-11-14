@@ -20,7 +20,7 @@ public interface StoreUserMapper extends BaseMapper<StoreUser> {
               FROM store_user
              <where>
                role = 'CUSTOMER'
-               <if test="keywordPattern != null">AND username LIKE CONCAT('%', #{keywordPattern}, '%') ESCAPE '\\'</if>
+               <if test="keywordPattern != null">AND username LIKE CONCAT('%', #{keywordPattern}, '%') ESCAPE '!'</if>
                <if test="status != null">AND status = #{status}</if>
              </where>
              ORDER BY id ASC

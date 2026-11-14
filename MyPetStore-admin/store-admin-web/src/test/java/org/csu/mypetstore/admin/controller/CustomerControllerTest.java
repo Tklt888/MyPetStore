@@ -20,6 +20,7 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import org.mockito.ArgumentCaptor;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -44,6 +45,17 @@ class CustomerControllerTest {
                 .andExpect(status().isBadRequest()).andExpect(view().name("error/400"));
         mvc.perform(get("/admin/customers").param("pageSize", "51"))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test void listCanonicalizesStatusForStableFormRoundTrip() throws Exception {
+        when(queryService.findCustomers(any())).thenReturn(new Page<CustomerListItem>(1, 10, 0));
+        mvc.perform(get("/admin/customers").param("status", " enabled "))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("query"));
+        ArgumentCaptor<org.csu.mypetstore.model.query.CustomerListQuery> captor =
+                ArgumentCaptor.forClass(org.csu.mypetstore.model.query.CustomerListQuery.class);
+        verify(queryService).findCustomers(captor.capture());
+        org.junit.jupiter.api.Assertions.assertEquals("ENABLED", captor.getValue().getStatus());
     }
 
     @Test void changeStatusUsesPrgForChangedAndRepeated() throws Exception {
@@ -90,5 +102,23 @@ class CustomerControllerTest {
         org.junit.jupiter.api.Assertions.assertFalse(html.contains("password_hash"));
         org.junit.jupiter.api.Assertions.assertFalse(html.contains("删除客户"));
         org.junit.jupiter.api.Assertions.assertFalse(html.contains("编辑角色"));
+    }
+
+    @Test void outOfRangeTemplateOffersFirstAndLastPageWithoutDroppingFilters() {
+        MockServletContext servletContext = new MockServletContext();
+        WebContext context = new WebContext(JakartaServletWebApplication.buildApplication(servletContext)
+                .buildExchange(new MockHttpServletRequest(servletContext), new MockHttpServletResponse()));
+        Page<CustomerListItem> page = new Page<>(9, 10, 21); page.setRecords(List.of());
+        org.csu.mypetstore.model.query.CustomerListQuery query = new org.csu.mypetstore.model.query.CustomerListQuery();
+        query.setKeyword("tom"); query.setStatus("ENABLED"); query.setPage(9L); query.setPageSize(10L); query.normalize();
+        context.setVariable("page", page); context.setVariable("query", query);
+        context.setVariable("pageSizeOptions", List.of(10L, 20L, 50L)); context.setVariable("message", null);
+        ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver(); resolver.setPrefix("templates/"); resolver.setSuffix(".html");
+        SpringTemplateEngine engine = new SpringTemplateEngine(); engine.setTemplateResolver(resolver);
+        String html = engine.process("customer/list", context);
+        org.junit.jupiter.api.Assertions.assertTrue(html.contains("返回第一页"));
+        org.junit.jupiter.api.Assertions.assertTrue(html.contains("前往最后一页"));
+        org.junit.jupiter.api.Assertions.assertTrue(html.contains("keyword=tom"));
+        org.junit.jupiter.api.Assertions.assertTrue(html.contains("status=ENABLED"));
     }
 }

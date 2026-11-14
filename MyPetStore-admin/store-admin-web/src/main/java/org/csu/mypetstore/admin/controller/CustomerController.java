@@ -33,6 +33,7 @@ public class CustomerController {
         query.setPage(parseLong(page, 1)); query.setPageSize(parseLong(pageSize, 10));
         query.normalize();
         query.setPage(query.normalizedPage()); query.setPageSize(query.normalizedPageSize());
+        query.setStatus(query.normalizedStatus());
         model.addAttribute("page", queryService.findCustomers(query));
         model.addAttribute("query", query);
         List<Long> options = new ArrayList<>(List.of(10L, 20L, 50L));

@@ -21,6 +21,7 @@ class CustomerMapperContractTest {
         assertTrue(sql.contains("role = 'CUSTOMER'"));
         assertTrue(sql.contains("username LIKE"));
         assertTrue(sql.contains("ESCAPE"));
+        assertTrue(sql.contains("ESCAPE '!'"));
         assertTrue(sql.contains("status = #{status}"));
         assertTrue(sql.contains("ORDER BY id ASC"));
         assertFalse(sql.toLowerCase().contains("password_hash"));

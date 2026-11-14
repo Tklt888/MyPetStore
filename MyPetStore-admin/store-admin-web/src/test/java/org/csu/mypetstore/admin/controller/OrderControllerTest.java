@@ -141,6 +141,7 @@ class OrderControllerTest {
 
         org.junit.jupiter.api.Assertions.assertTrue(html.contains("每页 10 条"));
         org.junit.jupiter.api.Assertions.assertTrue(html.contains("没有找到符合条件的订单"));
+        org.junit.jupiter.api.Assertions.assertTrue(html.contains("/admin/customers"));
     }
 
     @Test

@@ -10,9 +10,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class CustomerListQueryTest {
     @Test
     void defaultsTrimAndEscapeLiteralLikeCharacters() {
-        CustomerListQuery query = query("  a\\b%c_d  ", null, null, null);
+        CustomerListQuery query = query("  a\\b!%c_d  ", null, null, null);
         query.normalize();
-        assertEquals("a\\\\b\\%c\\_d", query.normalizedKeywordPattern());
+        assertEquals("a\\b!!!%c!_d", query.normalizedKeywordPattern());
         assertNull(query.normalizedStatus());
         assertEquals(1L, query.normalizedPage());
         assertEquals(10L, query.normalizedPageSize());

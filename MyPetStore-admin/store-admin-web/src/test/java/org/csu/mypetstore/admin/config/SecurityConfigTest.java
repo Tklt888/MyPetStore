@@ -5,6 +5,7 @@ import org.csu.mypetstore.service.AdminAccountService;
 import org.csu.mypetstore.admin.security.AdminAccountStatusFilter;
 import org.csu.mypetstore.admin.security.AdminPrincipal;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -33,9 +36,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = SecurityConfigTest.TestApplication.class)
 @AutoConfigureMockMvc
 class SecurityConfigTest {
+    private static final AtomicBoolean ACTIVE = new AtomicBoolean(true);
+    private static final AtomicInteger CUSTOMER_STATUS_CALLS = new AtomicInteger();
 
     @Autowired
     private MockMvc mockMvc;
+
+    @BeforeEach void resetState() { ACTIVE.set(true); CUSTOMER_STATUS_CALLS.set(0); }
 
     @Test
     void loginIsPublicButAdminPagesRequireAuthentication() throws Exception {
@@ -94,6 +101,19 @@ class SecurityConfigTest {
                 .authenticated(principal, null, principal.getAuthorities());
         mockMvc.perform(post("/admin/customers/1/status").with(authentication(token)).with(csrf()))
                 .andExpect(status().isOk());
+        org.junit.jupiter.api.Assertions.assertEquals(1, CUSTOMER_STATUS_CALLS.get());
+    }
+
+    @Test
+    void disabledAdminIsRedirectedBeforeCustomerStatusController() throws Exception {
+        ACTIVE.set(false);
+        AdminPrincipal principal = new AdminPrincipal(4L, "admin", "hash", "商城管理员");
+        var token = org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+                .authenticated(principal, null, principal.getAuthorities());
+        mockMvc.perform(post("/admin/customers/1/status").with(authentication(token)).with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl("/login?expired"));
+        org.junit.jupiter.api.Assertions.assertEquals(0, CUSTOMER_STATUS_CALLS.get());
     }
 
     @SpringBootConfiguration
@@ -111,7 +131,7 @@ class SecurityConfigTest {
 
                 @Override
                 public boolean isActiveAdmin(Long userId) {
-                    return true;
+                    return ACTIVE.get();
                 }
             };
         }
@@ -132,6 +152,6 @@ class SecurityConfigTest {
         }
 
         @org.springframework.web.bind.annotation.PostMapping("/admin/customers/{id}/status")
-        String customerStatus() { return "ok"; }
+        String customerStatus() { CUSTOMER_STATUS_CALLS.incrementAndGet(); return "ok"; }
     }
 }

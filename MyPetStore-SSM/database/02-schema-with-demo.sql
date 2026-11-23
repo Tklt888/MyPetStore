@@ -59,6 +59,7 @@ CREATE TABLE category (
 
 -- 3. 一个商品对应一个可销售SKU，不做多规格；下架代替删除。
 CREATE TABLE product (
+    archived_at DATETIME NULL DEFAULT NULL,
     id BIGINT NOT NULL AUTO_INCREMENT,
     sku VARCHAR(40) NOT NULL COMMENT '唯一销售编码，创建后不修改',
     category_id BIGINT NOT NULL COMMENT '必须归属二级分类，由Service校验',
@@ -126,6 +127,7 @@ CREATE TABLE cart_item (
 
 -- 6. 订单主表：模拟付款成功即PAID（待发货），没有真实支付渠道或退款。
 CREATE TABLE sales_order (
+    archived_at DATETIME NULL DEFAULT NULL,
     id BIGINT NOT NULL AUTO_INCREMENT,
     order_no VARCHAR(40) NOT NULL COMMENT '服务端生成的唯一展示订单号',
     user_id BIGINT NOT NULL,

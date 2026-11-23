@@ -40,6 +40,7 @@ public interface SalesOrderMapper extends BaseMapper<SalesOrder> {
                    o.created_at AS createdAt, o.paid_at AS paidAt, o.shipped_at AS shippedAt
               FROM sales_order o JOIN store_user u ON u.id = o.user_id
              <where>
+               o.archived_at IS NULL
                <if test="orderNo != null">AND o.order_no = #{orderNo}</if>
                <if test="status != null">AND o.status = #{status}</if>
              </where>

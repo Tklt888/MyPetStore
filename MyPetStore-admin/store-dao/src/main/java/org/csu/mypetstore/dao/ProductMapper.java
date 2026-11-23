@@ -29,6 +29,7 @@ public interface ProductMapper extends BaseMapper<Product> {
               JOIN category child ON child.id = p.category_id
               LEFT JOIN category parent ON parent.id = child.parent_id
              <where>
+               p.archived_at IS NULL
                <if test="keyword != null">AND (p.name LIKE CONCAT('%', #{keyword}, '%') OR p.sku LIKE CONCAT('%', #{keyword}, '%'))</if>
                <if test="status != null">AND p.status = #{status}</if>
                <if test="topCategoryId != null">AND parent.id = #{topCategoryId}</if>
@@ -43,16 +44,16 @@ public interface ProductMapper extends BaseMapper<Product> {
             @Param("topCategoryId") Long topCategoryId, @Param("categoryId") Long categoryId,
             @Param("maxStock") Integer maxStock);
 
-    @Select("SELECT COUNT(*) FROM product WHERE stock <= #{maxStock}")
+    @Select("SELECT COUNT(*) FROM product WHERE archived_at IS NULL AND stock <= #{maxStock}")
     long countWithStockAtMost(@Param("maxStock") int maxStock);
 
-    @Select("SELECT COUNT(*) FROM product WHERE status = #{status}")
+    @Select("SELECT COUNT(*) FROM product WHERE archived_at IS NULL AND status = #{status}")
     long countByStatus(@Param("status") String status);
 
     @Select("""
             SELECT id, name, cover_image AS coverImage, stock, status
               FROM product
-             WHERE stock <= #{maxStock}
+             WHERE archived_at IS NULL AND stock <= #{maxStock}
              ORDER BY stock ASC, id ASC
              LIMIT #{limit}
             """)
@@ -62,7 +63,7 @@ public interface ProductMapper extends BaseMapper<Product> {
     @Select("""
             SELECT p.id, p.sku, p.category_id, p.name, p.summary, p.description,
                    p.cover_image, p.price, p.stock, p.status, p.sort_order, p.version
-              FROM product p WHERE p.id = #{id}
+              FROM product p WHERE p.id = #{id} AND p.archived_at IS NULL
             """)
     ProductEditView selectDetailById(@Param("id") Long id);
 
@@ -81,7 +82,7 @@ public interface ProductMapper extends BaseMapper<Product> {
             UPDATE product SET category_id = #{categoryId}, name = #{name}, summary = #{summary},
                    description = #{description}, cover_image = #{coverImage}, price = #{price},
                    sort_order = #{sortOrder}, version = version + 1
-             WHERE id = #{id} AND version = #{version}
+             WHERE id = #{id} AND version = #{version} AND archived_at IS NULL
             """)
     int updateDetails(@Param("id") Long id, @Param("categoryId") Long categoryId,
             @Param("name") String name, @Param("summary") String summary,
@@ -91,13 +92,13 @@ public interface ProductMapper extends BaseMapper<Product> {
 
     @Update("""
             UPDATE product SET status = #{status}, version = version + 1
-             WHERE id = #{id} AND version = #{version}
+             WHERE id = #{id} AND version = #{version} AND archived_at IS NULL
             """)
     int updateStatus(@Param("id") Long id, @Param("status") String status, @Param("version") Long version);
 
     @Update("""
             UPDATE product SET stock = stock + #{quantity}, version = version + 1
-             WHERE id = #{id} AND stock <= 2147483647 - #{quantity}
+             WHERE id = #{id} AND stock <= 2147483647 - #{quantity} AND archived_at IS NULL
             """)
     int incrementStock(@Param("id") Long id, @Param("quantity") Integer quantity);
 }

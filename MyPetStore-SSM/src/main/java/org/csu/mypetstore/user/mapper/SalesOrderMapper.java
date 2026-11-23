@@ -8,7 +8,7 @@ import org.csu.mypetstore.user.domain.SalesOrder;
 
 public interface SalesOrderMapper extends BaseMapper<SalesOrder> {
     @Select("""
-      <script>select * from sales_order where user_id=#{userId}
+      <script>select * from sales_order where user_id=#{userId} and archived_at is null
       <if test='status!=null and status!=""'>and status=#{status}</if>
       <if test='orderNo!=null and orderNo!=""'>and order_no like concat('%',#{orderNo},'%') escape '='</if>
       order by created_at desc,id desc</script>

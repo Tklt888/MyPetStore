@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>结算确认 - MyPetStore</title><link rel="stylesheet" th:href="@{/css/storefront.css}"></head>
+<body>
+<header th:replace="~{fragments/shell :: header('cart')}"></header>
+<main class="store-shell page">
+    <header class="page-head"><span class="eyebrow">CHECKOUT</span><h1>结算确认</h1><p>提交前请核对商品与收货信息。</p></header>
+    <div class="flash-message is-error" role="alert" th:if="${error}" th:text="${error}"></div>
+    <div class="checkout-grid">
+        <section class="panel checkout-products"><h2>商品确认</h2>
+            <table class="table checkout-lines"><tbody>
+            <tr th:each="line:${lines}">
+                <td class="checkout-line-product"><div class="cart-product"><img th:src="|/${line.coverImage}|" th:alt="${line.name}"><strong th:text="${line.name}"></strong></div></td>
+                <td data-label="数量" th:text="|${line.quantity} 件|"></td>
+                <td data-label="小计" th:text="|¥${#numbers.formatDecimal(line.subtotal(),1,2)}|"></td>
+            </tr>
+            </tbody></table>
+            <strong class="detail-price" th:text="|合计 ¥${#numbers.formatDecimal(total,1,2)}|"></strong>
+        </section>
+        <section class="panel"><h2>收货信息</h2><form method="post" th:action="@{/orders}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <div class="field"><label for="receiverName">收货人</label><input class="control" id="receiverName" name="receiverName" maxlength="50" required></div>
+            <div class="field"><label for="receiverPhone">联系电话</label><input class="control" id="receiverPhone" name="receiverPhone" maxlength="30" required></div>
+            <div class="field"><label for="receiverAddress">详细地址</label><textarea class="control" id="receiverAddress" name="receiverAddress" maxlength="255" rows="4" required></textarea></div>
+            <div class="actions"><a class="secondary" th:href="@{/cart}">返回购物车</a><button class="primary">提交订单</button></div>
+        </form></section>
+    </div>
+</main>
+<footer th:replace="~{fragments/shell :: footer}"></footer>
+</body>
+</html>

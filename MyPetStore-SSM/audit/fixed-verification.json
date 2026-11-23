@@ -1,0 +1,104 @@
+[
+  {
+    "page": "cart",
+    "width": 1000,
+    "status": 200,
+    "url": "/cart",
+    "viewport": 1000,
+    "documentWidth": 1000,
+    "horizontalOverflow": false,
+    "tableOverflow": false,
+    "tabsOverflow": false
+  },
+  {
+    "page": "checkout",
+    "width": 1000,
+    "status": 200,
+    "url": "/checkout",
+    "viewport": 1000,
+    "documentWidth": 1000,
+    "horizontalOverflow": false,
+    "tableOverflow": false,
+    "tabsOverflow": false
+  },
+  {
+    "page": "orders",
+    "width": 1000,
+    "status": 200,
+    "url": "/orders",
+    "viewport": 1000,
+    "documentWidth": 1000,
+    "horizontalOverflow": false,
+    "tableOverflow": false,
+    "tabsOverflow": false
+  },
+  {
+    "page": "order-detail",
+    "width": 1000,
+    "status": 200,
+    "url": "/orders/1",
+    "viewport": 1000,
+    "documentWidth": 1000,
+    "horizontalOverflow": false,
+    "panelWidths": [
+      557,
+      371
+    ]
+  },
+  {
+    "page": "console",
+    "width": 1000,
+    "errors": []
+  },
+  {
+    "page": "cart",
+    "width": 390,
+    "status": 200,
+    "url": "/cart",
+    "viewport": 390,
+    "documentWidth": 390,
+    "horizontalOverflow": false,
+    "tableOverflow": false,
+    "tabsOverflow": false
+  },
+  {
+    "page": "checkout",
+    "width": 390,
+    "status": 200,
+    "url": "/checkout",
+    "viewport": 390,
+    "documentWidth": 390,
+    "horizontalOverflow": false,
+    "tableOverflow": false,
+    "tabsOverflow": false
+  },
+  {
+    "page": "orders",
+    "width": 390,
+    "status": 200,
+    "url": "/orders",
+    "viewport": 390,
+    "documentWidth": 390,
+    "horizontalOverflow": false,
+    "tableOverflow": false,
+    "tabsOverflow": false
+  },
+  {
+    "page": "order-detail",
+    "width": 390,
+    "status": 200,
+    "url": "/orders/1",
+    "viewport": 390,
+    "documentWidth": 390,
+    "horizontalOverflow": false,
+    "panelWidths": [
+      368,
+      368
+    ]
+  },
+  {
+    "page": "console",
+    "width": 390,
+    "errors": []
+  }
+]

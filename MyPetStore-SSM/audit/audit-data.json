@@ -1,0 +1,1448 @@
+{
+  "generatedAt": "2026-11-17T13:20:18.285Z",
+  "login": {
+    "success": true,
+    "finalUrl": "http://127.0.0.1:8080/main"
+  },
+  "routes": {
+    "home": "/main",
+    "products": "/category",
+    "product-detail": "/product?id=52",
+    "cart": "/cart",
+    "checkout": "/checkout",
+    "orders": "/orders",
+    "order-detail": "/orders/1",
+    "login": "/login",
+    "register": "/register"
+  },
+  "screenshots": [
+    {
+      "page": "home",
+      "width": 1440,
+      "file": "/Users/macbookair/Desktop/实验/软件开发架构平台/MyPetStore-SSM/audit/home-1440.png",
+      "requestedRoute": "/main",
+      "finalUrl": "http://127.0.0.1:8080/main",
+      "status": 200,
+      "title": "首页 - MyPetStore"
+    },
+    {
+      "page": "home",
+      "width": 1000,
+      "file": "/Users/macbookair/Desktop/实验/软件开发架构平台/MyPetStore-SSM/audit/home-1000.png",
+      "requestedRoute": "/main",
+      "finalUrl": "http://127.0.0.1:8080/main",
+      "status": 200,
+      "title": "首页 - MyPetStore"
+    },
+    {
+      "page": "home",
+      "width": 390,
+      "file": "/Users/macbookair/Desktop/实验/软件开发架构平台/MyPetStore-SSM/audit/home-390.png",
+      "requestedRoute": "/main",
+      "finalUrl": "http://127.0.0.1:8080/main",
+      "status": 200,
+      "title": "首页 - MyPetStore"
+    },
+    {
+      "page": "products",
+      "width": 1440,
+      "file": "/Users/macbookair/Desktop/实验/软件开发架构平台/MyPetStore-SSM/audit/products-1440.png",
+      "requestedRoute": "/category",
+      "finalUrl": "http://127.0.0.1:8080/category",
+      "status": 200,
+      "title": "选购商品 - MyPetStore"
+    },
+    {
+      "page": "products",
+      "width": 1000,
+      "file": "/Users/macbookair/Desktop/实验/软件开发架构平台/MyPetStore-SSM/audit/products-1000.png",
+      "requestedRoute": "/category",
+      "finalUrl": "http://127.0.0.1:8080/category",
+      "status": 200,
+      "title": "选购商品 - MyPetStore"
+    },
+    {
+      "page": "products",
+      "width": 390,
+      "file": "/Users/macbookair/Desktop/实验/软件开发架构平台/MyPetStore-SSM/audit/products-390.png",
+      "requestedRoute": "/category",
+      "finalUrl": "http://127.0.0.1:8080/category",
+      "status": 200,
+      "title": "选购商品 - MyPetStore"
+    },
+    {
+      "page": "product-detail",
+      "width": 1440,
+      "file": "/Users/macbookair/Desktop/实验/软件开发架构平台/MyPetStore-SSM/audit/product-detail-1440.png",
+      "requestedRoute": "/product?id=52",
+      "finalUrl": "http://127.0.0.1:8080/product?id=52",
+      "status": 200,
+      "title": "金毛寻回犬 - MyPetStore"
+    },
+    {
+      "page": "product-detail",
+      "width": 1000,
+      "file": "/Users/macbookair/Desktop/实验/软件开发架构平台/MyPetStore-SSM/audit/product-detail-1000.png",
+      "requestedRoute": "/product?id=52",
+      "finalUrl": "http://127.0.0.1:8080/product?id=52",
+      "status": 200,
+      "title": "金毛寻回犬 - MyPetStore"
+    },
+    {
+      "page": "product-detail",
+      "width": 390,
+      "file": "/Users/macbookair/Desktop/实验/软件开发架构平台/MyPetStore-SSM/audit/product-detail-390.png",
+      "requestedRoute": "/product?id=52",
+      "finalUrl": "http://127.0.0.1:8080/product?id=52",
+      "status": 200,
+      "title": "金毛寻回犬 - MyPetStore"
+    },
+    {
+      "page": "cart",
+      "width": 1440,
+      "file": "/Users/macbookair/Desktop/实验/软件开发架构平台/MyPetStore-SSM/audit/cart-1440.png",
+      "requestedRoute": "/cart",
+      "finalUrl": "http://127.0.0.1:8080/cart",
+      "status": 200,
+      "title": "购物车 - MyPetStore"
+    },
+    {
+      "page": "cart",
+      "width": 1000,
+      "file": "/Users/macbookair/Desktop/实验/软件开发架构平台/MyPetStore-SSM/audit/cart-1000.png",
+      "requestedRoute": "/cart",
+      "finalUrl": "http://127.0.0.1:8080/cart",
+      "status": 200,
+      "title": "购物车 - MyPetStore"
+    },
+    {
+      "page": "cart",
+      "width": 390,
+      "file": "/Users/macbookair/Desktop/实验/软件开发架构平台/MyPetStore-SSM/audit/cart-390.png",
+      "requestedRoute": "/cart",
+      "finalUrl": "http://127.0.0.1:8080/cart",
+      "status": 200,
+      "title": "购物车 - MyPetStore"
+    },
+    {
+      "page": "checkout",
+      "width": 1440,
+      "file": "/Users/macbookair/Desktop/实验/软件开发架构平台/MyPetStore-SSM/audit/checkout-1440.png",
+      "requestedRoute": "/checkout",
+      "finalUrl": "http://127.0.0.1:8080/checkout",
+      "status": 400,
+      "title": "请求无法完成 - MyPetStore"
+    },
+    {
+      "page": "checkout",
+      "width": 1000,
+      "file": "/Users/macbookair/Desktop/实验/软件开发架构平台/MyPetStore-SSM/audit/checkout-1000.png",
+      "requestedRoute": "/checkout",
+      "finalUrl": "http://127.0.0.1:8080/checkout",
+      "status": 400,
+      "title": "请求无法完成 - MyPetStore"
+    },
+    {
+      "page": "checkout",
+      "width": 390,
+      "file": "/Users/macbookair/Desktop/实验/软件开发架构平台/MyPetStore-SSM/audit/checkout-390.png",
+      "requestedRoute": "/checkout",
+      "finalUrl": "http://127.0.0.1:8080/checkout",
+      "status": 400,
+      "title": "请求无法完成 - MyPetStore"
+    },
+    {
+      "page": "orders",
+      "width": 1440,
+      "file": "/Users/macbookair/Desktop/实验/软件开发架构平台/MyPetStore-SSM/audit/orders-1440.png",
+      "requestedRoute": "/orders",
+      "finalUrl": "http://127.0.0.1:8080/orders",
+      "status": 200,
+      "title": "我的订单 - MyPetStore"
+    },
+    {
+      "page": "orders",
+      "width": 1000,
+      "file": "/Users/macbookair/Desktop/实验/软件开发架构平台/MyPetStore-SSM/audit/orders-1000.png",
+      "requestedRoute": "/orders",
+      "finalUrl": "http://127.0.0.1:8080/orders",
+      "status": 200,
+      "title": "我的订单 - MyPetStore"
+    },
+    {
+      "page": "orders",
+      "width": 390,
+      "file": "/Users/macbookair/Desktop/实验/软件开发架构平台/MyPetStore-SSM/audit/orders-390.png",
+      "requestedRoute": "/orders",
+      "finalUrl": "http://127.0.0.1:8080/orders",
+      "status": 200,
+      "title": "我的订单 - MyPetStore"
+    },
+    {
+      "page": "order-detail",
+      "width": 1440,
+      "file": "/Users/macbookair/Desktop/实验/软件开发架构平台/MyPetStore-SSM/audit/order-detail-1440.png",
+      "requestedRoute": "/orders/1",
+      "finalUrl": "http://127.0.0.1:8080/orders/1",
+      "status": 200,
+      "title": "订单详情 - MyPetStore"
+    },
+    {
+      "page": "order-detail",
+      "width": 1000,
+      "file": "/Users/macbookair/Desktop/实验/软件开发架构平台/MyPetStore-SSM/audit/order-detail-1000.png",
+      "requestedRoute": "/orders/1",
+      "finalUrl": "http://127.0.0.1:8080/orders/1",
+      "status": 200,
+      "title": "订单详情 - MyPetStore"
+    },
+    {
+      "page": "order-detail",
+      "width": 390,
+      "file": "/Users/macbookair/Desktop/实验/软件开发架构平台/MyPetStore-SSM/audit/order-detail-390.png",
+      "requestedRoute": "/orders/1",
+      "finalUrl": "http://127.0.0.1:8080/orders/1",
+      "status": 200,
+      "title": "订单详情 - MyPetStore"
+    },
+    {
+      "page": "login",
+      "width": 1440,
+      "file": "/Users/macbookair/Desktop/实验/软件开发架构平台/MyPetStore-SSM/audit/login-1440.png",
+      "requestedRoute": "/login",
+      "finalUrl": "http://127.0.0.1:8080/login",
+      "status": 200,
+      "title": "登录 - MyPetStore"
+    },
+    {
+      "page": "login",
+      "width": 1000,
+      "file": "/Users/macbookair/Desktop/实验/软件开发架构平台/MyPetStore-SSM/audit/login-1000.png",
+      "requestedRoute": "/login",
+      "finalUrl": "http://127.0.0.1:8080/login",
+      "status": 200,
+      "title": "登录 - MyPetStore"
+    },
+    {
+      "page": "login",
+      "width": 390,
+      "file": "/Users/macbookair/Desktop/实验/软件开发架构平台/MyPetStore-SSM/audit/login-390.png",
+      "requestedRoute": "/login",
+      "finalUrl": "http://127.0.0.1:8080/login",
+      "status": 200,
+      "title": "登录 - MyPetStore"
+    },
+    {
+      "page": "register",
+      "width": 1440,
+      "file": "/Users/macbookair/Desktop/实验/软件开发架构平台/MyPetStore-SSM/audit/register-1440.png",
+      "requestedRoute": "/register",
+      "finalUrl": "http://127.0.0.1:8080/register",
+      "status": 200,
+      "title": "注册 - MyPetStore"
+    },
+    {
+      "page": "register",
+      "width": 1000,
+      "file": "/Users/macbookair/Desktop/实验/软件开发架构平台/MyPetStore-SSM/audit/register-1000.png",
+      "requestedRoute": "/register",
+      "finalUrl": "http://127.0.0.1:8080/register",
+      "status": 200,
+      "title": "注册 - MyPetStore"
+    },
+    {
+      "page": "register",
+      "width": 390,
+      "file": "/Users/macbookair/Desktop/实验/软件开发架构平台/MyPetStore-SSM/audit/register-390.png",
+      "requestedRoute": "/register",
+      "finalUrl": "http://127.0.0.1:8080/register",
+      "status": 200,
+      "title": "注册 - MyPetStore"
+    }
+  ],
+  "console": [
+    {
+      "page": "checkout",
+      "width": 1440,
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 400 ()"
+    },
+    {
+      "page": "checkout",
+      "width": 1000,
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 400 ()"
+    },
+    {
+      "page": "checkout",
+      "width": 390,
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 400 ()"
+    }
+  ],
+  "pageErrors": [],
+  "requestFailures": [],
+  "httpErrors": [
+    {
+      "page": "checkout",
+      "width": 1440,
+      "status": 400,
+      "url": "http://127.0.0.1:8080/checkout"
+    },
+    {
+      "page": "checkout",
+      "width": 1000,
+      "status": 400,
+      "url": "http://127.0.0.1:8080/checkout"
+    },
+    {
+      "page": "checkout",
+      "width": 390,
+      "status": 400,
+      "url": "http://127.0.0.1:8080/checkout"
+    }
+  ],
+  "layout": [
+    {
+      "page": "home",
+      "width": 1440,
+      "horizontalScroll": false,
+      "documentWidth": 1440,
+      "outside": [],
+      "textOverflow": []
+    },
+    {
+      "page": "home",
+      "width": 1000,
+      "horizontalScroll": false,
+      "documentWidth": 1000,
+      "outside": [],
+      "textOverflow": []
+    },
+    {
+      "page": "home",
+      "width": 390,
+      "horizontalScroll": false,
+      "documentWidth": 390,
+      "outside": [],
+      "textOverflow": []
+    },
+    {
+      "page": "products",
+      "width": 1440,
+      "horizontalScroll": false,
+      "documentWidth": 1440,
+      "outside": [],
+      "textOverflow": []
+    },
+    {
+      "page": "products",
+      "width": 1000,
+      "horizontalScroll": false,
+      "documentWidth": 1000,
+      "outside": [],
+      "textOverflow": []
+    },
+    {
+      "page": "products",
+      "width": 390,
+      "horizontalScroll": false,
+      "documentWidth": 390,
+      "outside": [],
+      "textOverflow": []
+    },
+    {
+      "page": "product-detail",
+      "width": 1440,
+      "horizontalScroll": false,
+      "documentWidth": 1440,
+      "outside": [],
+      "textOverflow": []
+    },
+    {
+      "page": "product-detail",
+      "width": 1000,
+      "horizontalScroll": false,
+      "documentWidth": 1000,
+      "outside": [],
+      "textOverflow": []
+    },
+    {
+      "page": "product-detail",
+      "width": 390,
+      "horizontalScroll": false,
+      "documentWidth": 390,
+      "outside": [],
+      "textOverflow": []
+    },
+    {
+      "page": "cart",
+      "width": 1440,
+      "horizontalScroll": false,
+      "documentWidth": 1440,
+      "outside": [],
+      "textOverflow": []
+    },
+    {
+      "page": "cart",
+      "width": 1000,
+      "horizontalScroll": false,
+      "documentWidth": 1000,
+      "outside": [],
+      "textOverflow": []
+    },
+    {
+      "page": "cart",
+      "width": 390,
+      "horizontalScroll": false,
+      "documentWidth": 390,
+      "outside": [
+        {
+          "tag": "table",
+          "className": "table",
+          "text": "商品 单价 数量 小计 操作 短毛猫 CT-SHORT-01 库存不足 ¥950.00 − ＋ 更新 ¥1900.00 移除 轻便反光牵引绳 DOG-LEASH-26 ¥39.90 − ＋ 更新 ¥7"
+        },
+        {
+          "tag": "thead",
+          "className": "",
+          "text": "商品 单价 数量 小计 操作"
+        },
+        {
+          "tag": "tr",
+          "className": "",
+          "text": "商品 单价 数量 小计 操作"
+        },
+        {
+          "tag": "th",
+          "className": "",
+          "text": "数量"
+        },
+        {
+          "tag": "th",
+          "className": "",
+          "text": "小计"
+        },
+        {
+          "tag": "th",
+          "className": "",
+          "text": "操作"
+        },
+        {
+          "tag": "tbody",
+          "className": "",
+          "text": "短毛猫 CT-SHORT-01 库存不足 ¥950.00 − ＋ 更新 ¥1900.00 移除 轻便反光牵引绳 DOG-LEASH-26 ¥39.90 − ＋ 更新 ¥79.80 移除 豆腐猫砂2.5"
+        },
+        {
+          "tag": "tr",
+          "className": "",
+          "text": "短毛猫 CT-SHORT-01 库存不足 ¥950.00 − ＋ 更新 ¥1900.00 移除"
+        },
+        {
+          "tag": "td",
+          "className": "",
+          "text": "− ＋ 更新"
+        },
+        {
+          "tag": "form",
+          "className": "actions",
+          "text": "− ＋ 更新"
+        },
+        {
+          "tag": "div",
+          "className": "inline-qty",
+          "text": "− ＋"
+        },
+        {
+          "tag": "input",
+          "className": "control qty",
+          "text": ""
+        },
+        {
+          "tag": "button",
+          "className": "",
+          "text": "＋"
+        },
+        {
+          "tag": "button",
+          "className": "secondary",
+          "text": "更新"
+        },
+        {
+          "tag": "td",
+          "className": "",
+          "text": "¥1900.00"
+        },
+        {
+          "tag": "td",
+          "className": "",
+          "text": "移除"
+        },
+        {
+          "tag": "form",
+          "className": "",
+          "text": "移除"
+        },
+        {
+          "tag": "button",
+          "className": "danger",
+          "text": "移除"
+        },
+        {
+          "tag": "tr",
+          "className": "",
+          "text": "轻便反光牵引绳 DOG-LEASH-26 ¥39.90 − ＋ 更新 ¥79.80 移除"
+        },
+        {
+          "tag": "td",
+          "className": "",
+          "text": "− ＋ 更新"
+        }
+      ],
+      "textOverflow": []
+    },
+    {
+      "page": "checkout",
+      "width": 1440,
+      "horizontalScroll": false,
+      "documentWidth": 1440,
+      "outside": [],
+      "textOverflow": []
+    },
+    {
+      "page": "checkout",
+      "width": 1000,
+      "horizontalScroll": false,
+      "documentWidth": 1000,
+      "outside": [],
+      "textOverflow": []
+    },
+    {
+      "page": "checkout",
+      "width": 390,
+      "horizontalScroll": false,
+      "documentWidth": 390,
+      "outside": [],
+      "textOverflow": []
+    },
+    {
+      "page": "orders",
+      "width": 1440,
+      "horizontalScroll": false,
+      "documentWidth": 1440,
+      "outside": [],
+      "textOverflow": []
+    },
+    {
+      "page": "orders",
+      "width": 1000,
+      "horizontalScroll": false,
+      "documentWidth": 1000,
+      "outside": [],
+      "textOverflow": []
+    },
+    {
+      "page": "orders",
+      "width": 390,
+      "horizontalScroll": false,
+      "documentWidth": 390,
+      "outside": [
+        {
+          "tag": "a",
+          "className": "",
+          "text": "已取消"
+        }
+      ],
+      "textOverflow": []
+    },
+    {
+      "page": "order-detail",
+      "width": 1440,
+      "horizontalScroll": false,
+      "documentWidth": 1440,
+      "outside": [],
+      "textOverflow": []
+    },
+    {
+      "page": "order-detail",
+      "width": 1000,
+      "horizontalScroll": false,
+      "documentWidth": 1000,
+      "outside": [],
+      "textOverflow": []
+    },
+    {
+      "page": "order-detail",
+      "width": 390,
+      "horizontalScroll": true,
+      "documentWidth": 781,
+      "outside": [
+        {
+          "tag": "section",
+          "className": "panel",
+          "text": "商品快照 轻便反光牵引绳 DOG-LEASH-26 ¥39.90 × 1 ¥39.90 豆腐猫砂2.5kg CAT-LITTER-26 ¥32.80 × 2 ¥65.60 已模拟支付 ¥105.50"
+        },
+        {
+          "tag": "h2",
+          "className": "",
+          "text": "商品快照"
+        },
+        {
+          "tag": "table",
+          "className": "table",
+          "text": "轻便反光牵引绳 DOG-LEASH-26 ¥39.90 × 1 ¥39.90 豆腐猫砂2.5kg CAT-LITTER-26 ¥32.80 × 2 ¥65.60"
+        },
+        {
+          "tag": "tbody",
+          "className": "",
+          "text": "轻便反光牵引绳 DOG-LEASH-26 ¥39.90 × 1 ¥39.90 豆腐猫砂2.5kg CAT-LITTER-26 ¥32.80 × 2 ¥65.60"
+        },
+        {
+          "tag": "tr",
+          "className": "",
+          "text": "轻便反光牵引绳 DOG-LEASH-26 ¥39.90 × 1 ¥39.90"
+        },
+        {
+          "tag": "td",
+          "className": "",
+          "text": "轻便反光牵引绳 DOG-LEASH-26"
+        },
+        {
+          "tag": "div",
+          "className": "cart-product",
+          "text": "轻便反光牵引绳 DOG-LEASH-26"
+        },
+        {
+          "tag": "td",
+          "className": "",
+          "text": "¥39.90 × 1"
+        },
+        {
+          "tag": "td",
+          "className": "",
+          "text": "¥39.90"
+        },
+        {
+          "tag": "tr",
+          "className": "",
+          "text": "豆腐猫砂2.5kg CAT-LITTER-26 ¥32.80 × 2 ¥65.60"
+        },
+        {
+          "tag": "td",
+          "className": "",
+          "text": "豆腐猫砂2.5kg CAT-LITTER-26"
+        },
+        {
+          "tag": "div",
+          "className": "cart-product",
+          "text": "豆腐猫砂2.5kg CAT-LITTER-26"
+        },
+        {
+          "tag": "td",
+          "className": "",
+          "text": "¥32.80 × 2"
+        },
+        {
+          "tag": "td",
+          "className": "",
+          "text": "¥65.60"
+        },
+        {
+          "tag": "p",
+          "className": "detail-price",
+          "text": "已模拟支付 ¥105.50"
+        },
+        {
+          "tag": "aside",
+          "className": "panel",
+          "text": "订单与收货信息 创建时间 2026-11-10 22:11:40 收货人 林同学 · 13800000001 地址 教学示例地址：长沙市岳麓区课程实验室A（非真实收货地址） 教学模拟支付凭证 MOCK"
+        },
+        {
+          "tag": "h2",
+          "className": "",
+          "text": "订单与收货信息"
+        },
+        {
+          "tag": "p",
+          "className": "",
+          "text": "创建时间 2026-11-10 22:11:40"
+        },
+        {
+          "tag": "p",
+          "className": "",
+          "text": "收货人 林同学 · 13800000001"
+        },
+        {
+          "tag": "p",
+          "className": "",
+          "text": "地址 教学示例地址：长沙市岳麓区课程实验室A（非真实收货地址）"
+        }
+      ],
+      "textOverflow": []
+    },
+    {
+      "page": "login",
+      "width": 1440,
+      "horizontalScroll": false,
+      "documentWidth": 1440,
+      "outside": [],
+      "textOverflow": []
+    },
+    {
+      "page": "login",
+      "width": 1000,
+      "horizontalScroll": false,
+      "documentWidth": 1000,
+      "outside": [],
+      "textOverflow": []
+    },
+    {
+      "page": "login",
+      "width": 390,
+      "horizontalScroll": false,
+      "documentWidth": 390,
+      "outside": [],
+      "textOverflow": []
+    },
+    {
+      "page": "register",
+      "width": 1440,
+      "horizontalScroll": false,
+      "documentWidth": 1440,
+      "outside": [],
+      "textOverflow": []
+    },
+    {
+      "page": "register",
+      "width": 1000,
+      "horizontalScroll": false,
+      "documentWidth": 1000,
+      "outside": [],
+      "textOverflow": []
+    },
+    {
+      "page": "register",
+      "width": 390,
+      "horizontalScroll": false,
+      "documentWidth": 390,
+      "outside": [],
+      "textOverflow": []
+    }
+  ],
+  "images": [
+    {
+      "page": "home",
+      "width": 1440,
+      "broken": [],
+      "placeholders": [],
+      "duplicates": []
+    },
+    {
+      "page": "home",
+      "width": 1000,
+      "broken": [],
+      "placeholders": [],
+      "duplicates": []
+    },
+    {
+      "page": "home",
+      "width": 390,
+      "broken": [],
+      "placeholders": [],
+      "duplicates": []
+    },
+    {
+      "page": "products",
+      "width": 1440,
+      "broken": [],
+      "placeholders": [],
+      "duplicates": []
+    },
+    {
+      "page": "products",
+      "width": 1000,
+      "broken": [],
+      "placeholders": [],
+      "duplicates": []
+    },
+    {
+      "page": "products",
+      "width": 390,
+      "broken": [],
+      "placeholders": [],
+      "duplicates": []
+    },
+    {
+      "page": "product-detail",
+      "width": 1440,
+      "broken": [],
+      "placeholders": [],
+      "duplicates": [
+        {
+          "src": "/images/catalog/DOG-GOLDEN-26.jpg",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "page": "product-detail",
+      "width": 1000,
+      "broken": [],
+      "placeholders": [],
+      "duplicates": [
+        {
+          "src": "/images/catalog/DOG-GOLDEN-26.jpg",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "page": "product-detail",
+      "width": 390,
+      "broken": [],
+      "placeholders": [],
+      "duplicates": [
+        {
+          "src": "/images/catalog/DOG-GOLDEN-26.jpg",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "page": "cart",
+      "width": 1440,
+      "broken": [],
+      "placeholders": [
+        {
+          "src": "/images/supplies/REP-HEAT-26.svg",
+          "alt": "爬宠加热垫",
+          "naturalWidth": 800,
+          "naturalHeight": 600,
+          "visible": true
+        }
+      ],
+      "duplicates": []
+    },
+    {
+      "page": "cart",
+      "width": 1000,
+      "broken": [],
+      "placeholders": [
+        {
+          "src": "/images/supplies/REP-HEAT-26.svg",
+          "alt": "爬宠加热垫",
+          "naturalWidth": 800,
+          "naturalHeight": 600,
+          "visible": true
+        }
+      ],
+      "duplicates": []
+    },
+    {
+      "page": "cart",
+      "width": 390,
+      "broken": [],
+      "placeholders": [
+        {
+          "src": "/images/supplies/REP-HEAT-26.svg",
+          "alt": "爬宠加热垫",
+          "naturalWidth": 800,
+          "naturalHeight": 600,
+          "visible": true
+        }
+      ],
+      "duplicates": []
+    },
+    {
+      "page": "checkout",
+      "width": 1440,
+      "broken": [],
+      "placeholders": [],
+      "duplicates": []
+    },
+    {
+      "page": "checkout",
+      "width": 1000,
+      "broken": [],
+      "placeholders": [],
+      "duplicates": []
+    },
+    {
+      "page": "checkout",
+      "width": 390,
+      "broken": [],
+      "placeholders": [],
+      "duplicates": []
+    },
+    {
+      "page": "orders",
+      "width": 1440,
+      "broken": [],
+      "placeholders": [],
+      "duplicates": [
+        {
+          "src": "/images/catalog/DOG-LEASH-26.jpg",
+          "count": 3
+        },
+        {
+          "src": "/images/catalog/CAT-LITTER-26.jpg",
+          "count": 2
+        },
+        {
+          "src": "/images/catalog/DOG-FOOD-26.jpg",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "page": "orders",
+      "width": 1000,
+      "broken": [],
+      "placeholders": [],
+      "duplicates": [
+        {
+          "src": "/images/catalog/DOG-LEASH-26.jpg",
+          "count": 3
+        },
+        {
+          "src": "/images/catalog/CAT-LITTER-26.jpg",
+          "count": 2
+        },
+        {
+          "src": "/images/catalog/DOG-FOOD-26.jpg",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "page": "orders",
+      "width": 390,
+      "broken": [],
+      "placeholders": [],
+      "duplicates": [
+        {
+          "src": "/images/catalog/DOG-LEASH-26.jpg",
+          "count": 3
+        },
+        {
+          "src": "/images/catalog/CAT-LITTER-26.jpg",
+          "count": 2
+        },
+        {
+          "src": "/images/catalog/DOG-FOOD-26.jpg",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "page": "order-detail",
+      "width": 1440,
+      "broken": [],
+      "placeholders": [],
+      "duplicates": []
+    },
+    {
+      "page": "order-detail",
+      "width": 1000,
+      "broken": [],
+      "placeholders": [],
+      "duplicates": []
+    },
+    {
+      "page": "order-detail",
+      "width": 390,
+      "broken": [],
+      "placeholders": [],
+      "duplicates": []
+    },
+    {
+      "page": "login",
+      "width": 1440,
+      "broken": [],
+      "placeholders": [],
+      "duplicates": []
+    },
+    {
+      "page": "login",
+      "width": 1000,
+      "broken": [],
+      "placeholders": [],
+      "duplicates": []
+    },
+    {
+      "page": "login",
+      "width": 390,
+      "broken": [],
+      "placeholders": [],
+      "duplicates": []
+    },
+    {
+      "page": "register",
+      "width": 1440,
+      "broken": [],
+      "placeholders": [],
+      "duplicates": []
+    },
+    {
+      "page": "register",
+      "width": 1000,
+      "broken": [],
+      "placeholders": [],
+      "duplicates": []
+    },
+    {
+      "page": "register",
+      "width": 390,
+      "broken": [],
+      "placeholders": [],
+      "duplicates": []
+    }
+  ],
+  "content": [
+    {
+      "page": "home",
+      "width": 1440,
+      "devTerms": [
+        "购商品 我的订单 实验说明 课程实验教学商城 所有支付均为模拟操作 © 2026 MyPetStor"
+      ],
+      "hasEmptyState": false,
+      "hasErrorRegion": false,
+      "hasStatusRegion": false,
+      "interactive": {
+        "links": 24,
+        "buttons": 2,
+        "forms": 2
+      }
+    },
+    {
+      "page": "home",
+      "width": 1000,
+      "devTerms": [
+        "购商品 我的订单 实验说明 课程实验教学商城 所有支付均为模拟操作 © 2026 MyPetStor"
+      ],
+      "hasEmptyState": false,
+      "hasErrorRegion": false,
+      "hasStatusRegion": false,
+      "interactive": {
+        "links": 24,
+        "buttons": 2,
+        "forms": 2
+      }
+    },
+    {
+      "page": "home",
+      "width": 390,
+      "devTerms": [
+        "购商品 我的订单 实验说明 课程实验教学商城 所有支付均为模拟操作 © 2026 MyPetStor"
+      ],
+      "hasEmptyState": false,
+      "hasErrorRegion": false,
+      "hasStatusRegion": false,
+      "interactive": {
+        "links": 24,
+        "buttons": 2,
+        "forms": 2
+      }
+    },
+    {
+      "page": "products",
+      "width": 1440,
+      "devTerms": [
+        "购商品 我的订单 实验说明 课程实验教学商城 所有支付均为模拟操作 © 2026 MyPetStor"
+      ],
+      "hasEmptyState": false,
+      "hasErrorRegion": false,
+      "hasStatusRegion": false,
+      "interactive": {
+        "links": 24,
+        "buttons": 10,
+        "forms": 11
+      }
+    },
+    {
+      "page": "products",
+      "width": 1000,
+      "devTerms": [
+        "购商品 我的订单 实验说明 课程实验教学商城 所有支付均为模拟操作 © 2026 MyPetStor"
+      ],
+      "hasEmptyState": false,
+      "hasErrorRegion": false,
+      "hasStatusRegion": false,
+      "interactive": {
+        "links": 24,
+        "buttons": 10,
+        "forms": 11
+      }
+    },
+    {
+      "page": "products",
+      "width": 390,
+      "devTerms": [
+        "购商品 我的订单 实验说明 课程实验教学商城 所有支付均为模拟操作 © 2026 MyPetStor"
+      ],
+      "hasEmptyState": false,
+      "hasErrorRegion": false,
+      "hasStatusRegion": false,
+      "interactive": {
+        "links": 24,
+        "buttons": 10,
+        "forms": 11
+      }
+    },
+    {
+      "page": "product-detail",
+      "width": 1440,
+      "devTerms": [
+        "购商品 我的订单 实验说明 课程实验教学商城 所有支付均为模拟操作 © 2026 MyPetStor"
+      ],
+      "hasEmptyState": false,
+      "hasErrorRegion": false,
+      "hasStatusRegion": false,
+      "interactive": {
+        "links": 11,
+        "buttons": 5,
+        "forms": 3
+      }
+    },
+    {
+      "page": "product-detail",
+      "width": 1000,
+      "devTerms": [
+        "购商品 我的订单 实验说明 课程实验教学商城 所有支付均为模拟操作 © 2026 MyPetStor"
+      ],
+      "hasEmptyState": false,
+      "hasErrorRegion": false,
+      "hasStatusRegion": false,
+      "interactive": {
+        "links": 11,
+        "buttons": 5,
+        "forms": 3
+      }
+    },
+    {
+      "page": "product-detail",
+      "width": 390,
+      "devTerms": [
+        "购商品 我的订单 实验说明 课程实验教学商城 所有支付均为模拟操作 © 2026 MyPetStor"
+      ],
+      "hasEmptyState": false,
+      "hasErrorRegion": false,
+      "hasStatusRegion": false,
+      "interactive": {
+        "links": 11,
+        "buttons": 5,
+        "forms": 3
+      }
+    },
+    {
+      "page": "cart",
+      "width": 1440,
+      "devTerms": [
+        "购商品 我的订单 实验说明 课程实验教学商城 所有支付均为模拟操作 © 2026 MyPetStor"
+      ],
+      "hasEmptyState": false,
+      "hasErrorRegion": false,
+      "hasStatusRegion": false,
+      "interactive": {
+        "links": 8,
+        "buttons": 26,
+        "forms": 14
+      }
+    },
+    {
+      "page": "cart",
+      "width": 1000,
+      "devTerms": [
+        "购商品 我的订单 实验说明 课程实验教学商城 所有支付均为模拟操作 © 2026 MyPetStor"
+      ],
+      "hasEmptyState": false,
+      "hasErrorRegion": false,
+      "hasStatusRegion": false,
+      "interactive": {
+        "links": 8,
+        "buttons": 26,
+        "forms": 14
+      }
+    },
+    {
+      "page": "cart",
+      "width": 390,
+      "devTerms": [
+        "购商品 我的订单 实验说明 课程实验教学商城 所有支付均为模拟操作 © 2026 MyPetStor"
+      ],
+      "hasEmptyState": false,
+      "hasErrorRegion": false,
+      "hasStatusRegion": false,
+      "interactive": {
+        "links": 8,
+        "buttons": 26,
+        "forms": 14
+      }
+    },
+    {
+      "page": "checkout",
+      "width": 1440,
+      "devTerms": [],
+      "hasEmptyState": false,
+      "hasErrorRegion": false,
+      "hasStatusRegion": false,
+      "interactive": {
+        "links": 2,
+        "buttons": 0,
+        "forms": 0
+      }
+    },
+    {
+      "page": "checkout",
+      "width": 1000,
+      "devTerms": [],
+      "hasEmptyState": false,
+      "hasErrorRegion": false,
+      "hasStatusRegion": false,
+      "interactive": {
+        "links": 2,
+        "buttons": 0,
+        "forms": 0
+      }
+    },
+    {
+      "page": "checkout",
+      "width": 390,
+      "devTerms": [],
+      "hasEmptyState": false,
+      "hasErrorRegion": false,
+      "hasStatusRegion": false,
+      "interactive": {
+        "links": 2,
+        "buttons": 0,
+        "forms": 0
+      }
+    },
+    {
+      "page": "orders",
+      "width": 1440,
+      "devTerms": [
+        "购商品 我的订单 实验说明 课程实验教学商城 所有支付均为模拟操作 © 2026 MyPetStor"
+      ],
+      "hasEmptyState": false,
+      "hasErrorRegion": false,
+      "hasStatusRegion": false,
+      "interactive": {
+        "links": 24,
+        "buttons": 3,
+        "forms": 3
+      }
+    },
+    {
+      "page": "orders",
+      "width": 1000,
+      "devTerms": [
+        "购商品 我的订单 实验说明 课程实验教学商城 所有支付均为模拟操作 © 2026 MyPetStor"
+      ],
+      "hasEmptyState": false,
+      "hasErrorRegion": false,
+      "hasStatusRegion": false,
+      "interactive": {
+        "links": 24,
+        "buttons": 3,
+        "forms": 3
+      }
+    },
+    {
+      "page": "orders",
+      "width": 390,
+      "devTerms": [
+        "购商品 我的订单 实验说明 课程实验教学商城 所有支付均为模拟操作 © 2026 MyPetStor"
+      ],
+      "hasEmptyState": false,
+      "hasErrorRegion": false,
+      "hasStatusRegion": false,
+      "interactive": {
+        "links": 24,
+        "buttons": 3,
+        "forms": 3
+      }
+    },
+    {
+      "page": "order-detail",
+      "width": 1440,
+      "devTerms": [
+        "· 13800000001 地址 教学示例地址：长沙市岳麓区课程实验室A（非真实收货地址） 教学模",
+        "拟支付凭证 MOCK-DEMO-202611-AL-01-F4F79A7A 20",
+        "购商品 我的订单 实验说明 课程实验教学商城 所有支付均为模拟操作 © 2026 MyPetStor"
+      ],
+      "hasEmptyState": false,
+      "hasErrorRegion": false,
+      "hasStatusRegion": false,
+      "interactive": {
+        "links": 9,
+        "buttons": 2,
+        "forms": 2
+      }
+    },
+    {
+      "page": "order-detail",
+      "width": 1000,
+      "devTerms": [
+        "· 13800000001 地址 教学示例地址：长沙市岳麓区课程实验室A（非真实收货地址） 教学模",
+        "拟支付凭证 MOCK-DEMO-202611-AL-01-F4F79A7A 20",
+        "购商品 我的订单 实验说明 课程实验教学商城 所有支付均为模拟操作 © 2026 MyPetStor"
+      ],
+      "hasEmptyState": false,
+      "hasErrorRegion": false,
+      "hasStatusRegion": false,
+      "interactive": {
+        "links": 9,
+        "buttons": 2,
+        "forms": 2
+      }
+    },
+    {
+      "page": "order-detail",
+      "width": 390,
+      "devTerms": [
+        "· 13800000001 地址 教学示例地址：长沙市岳麓区课程实验室A（非真实收货地址） 教学模",
+        "拟支付凭证 MOCK-DEMO-202611-AL-01-F4F79A7A 20",
+        "购商品 我的订单 实验说明 课程实验教学商城 所有支付均为模拟操作 © 2026 MyPetStor"
+      ],
+      "hasEmptyState": false,
+      "hasErrorRegion": false,
+      "hasStatusRegion": false,
+      "interactive": {
+        "links": 9,
+        "buttons": 2,
+        "forms": 2
+      }
+    },
+    {
+      "page": "login",
+      "width": 1440,
+      "devTerms": [],
+      "hasEmptyState": false,
+      "hasErrorRegion": false,
+      "hasStatusRegion": false,
+      "interactive": {
+        "links": 3,
+        "buttons": 1,
+        "forms": 1
+      }
+    },
+    {
+      "page": "login",
+      "width": 1000,
+      "devTerms": [],
+      "hasEmptyState": false,
+      "hasErrorRegion": false,
+      "hasStatusRegion": false,
+      "interactive": {
+        "links": 3,
+        "buttons": 1,
+        "forms": 1
+      }
+    },
+    {
+      "page": "login",
+      "width": 390,
+      "devTerms": [],
+      "hasEmptyState": false,
+      "hasErrorRegion": false,
+      "hasStatusRegion": false,
+      "interactive": {
+        "links": 3,
+        "buttons": 1,
+        "forms": 1
+      }
+    },
+    {
+      "page": "register",
+      "width": 1440,
+      "devTerms": [],
+      "hasEmptyState": false,
+      "hasErrorRegion": false,
+      "hasStatusRegion": false,
+      "interactive": {
+        "links": 3,
+        "buttons": 1,
+        "forms": 1
+      }
+    },
+    {
+      "page": "register",
+      "width": 1000,
+      "devTerms": [],
+      "hasEmptyState": false,
+      "hasErrorRegion": false,
+      "hasStatusRegion": false,
+      "interactive": {
+        "links": 3,
+        "buttons": 1,
+        "forms": 1
+      }
+    },
+    {
+      "page": "register",
+      "width": 390,
+      "devTerms": [],
+      "hasEmptyState": false,
+      "hasErrorRegion": false,
+      "hasStatusRegion": false,
+      "interactive": {
+        "links": 3,
+        "buttons": 1,
+        "forms": 1
+      }
+    }
+  ],
+  "interactions": [
+    {
+      "test": "商品卡片进入详情",
+      "success": true,
+      "finalUrl": "http://127.0.0.1:8080/product?id=52"
+    },
+    {
+      "test": "商品数量加减按钮",
+      "success": true,
+      "before": 1,
+      "afterPlus": 2,
+      "afterMinus": 1
+    },
+    {
+      "test": "购物车数量加减按钮（未提交）",
+      "success": true
+    },
+    {
+      "test": "结算表单必填校验",
+      "success": false,
+      "finalUrl": "http://127.0.0.1:8080/checkout"
+    },
+    {
+      "test": "订单列表进入详情",
+      "success": true,
+      "finalUrl": "http://127.0.0.1:8080/orders/1"
+    },
+    {
+      "test": "登录表单必填校验",
+      "success": true
+    },
+    {
+      "test": "注册表单必填校验",
+      "success": true
+    }
+  ],
+  "calculations": [
+    {
+      "page": "cart",
+      "rows": 6,
+      "lineCalculationsConsistent": true,
+      "summedSubtotals": 5984.2,
+      "displayedTotal": 5984.2,
+      "totalConsistent": true
+    },
+    {
+      "page": "order-detail",
+      "lineCalculationsConsistent": true,
+      "summedLines": 105.5,
+      "displayedTotal": 105.5,
+      "totalConsistent": true
+    }
+  ]
+}

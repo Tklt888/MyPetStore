@@ -13,6 +13,9 @@ import org.csu.mypetstore.model.dto.CustomerListItem;
 @Mapper
 public interface StoreUserMapper extends BaseMapper<StoreUser> {
 
+    @Select("SELECT COUNT(*) FROM store_user WHERE role = 'CUSTOMER'")
+    long countCustomers();
+
     @Select("""
             <script>
             SELECT id, username, display_name AS displayName, email, phone,

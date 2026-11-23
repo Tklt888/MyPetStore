@@ -48,6 +48,10 @@ class SecurityConfigTest {
     void loginIsPublicButAdminPagesRequireAuthentication() throws Exception {
         mockMvc.perform(get("/login"))
                 .andExpect(status().isOk());
+        mockMvc.perform(get("/css/admin.css"))
+                .andExpect(status().isOk());
+        mockMvc.perform(get("/js/admin.js"))
+                .andExpect(status().isOk());
         mockMvc.perform(get("/"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrlPattern("**/login"));
@@ -146,7 +150,7 @@ class SecurityConfigTest {
     @RestController
     static class TestController {
 
-        @GetMapping({"/login", "/", "/admin/products", "/admin/categories", "/admin/orders", "/admin/customers"})
+        @GetMapping({"/login", "/css/admin.css", "/js/admin.js", "/", "/admin/products", "/admin/categories", "/admin/orders", "/admin/customers"})
         String page() {
             return "ok";
         }

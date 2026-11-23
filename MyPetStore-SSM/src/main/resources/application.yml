@@ -1,0 +1,24 @@
+server:
+  port: 8080
+  servlet:
+    session:
+      cookie:
+        name: PETSTORE_USER_SESSION
+        http-only: true
+        same-site: lax
+spring:
+  application:
+    name: mypetstore-user
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/MyPetStore?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  thymeleaf:
+    cache: false
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    default-enum-type-handler: org.apache.ibatis.type.EnumTypeHandler
+  global-config:
+    banner: false

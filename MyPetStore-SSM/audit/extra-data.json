@@ -1,0 +1,85 @@
+{
+  "states": [
+    {
+      "page": "products",
+      "state": "empty search",
+      "hasEmpty": true,
+      "text": [
+        "未找到相关商品\n\n请尝试更换搜索词或清除筛选条件。\n\n清除所有筛选"
+      ]
+    },
+    {
+      "page": "orders",
+      "state": "empty search",
+      "hasEmpty": true,
+      "text": [
+        "○\n还没有订单\n\n试试调整筛选条件，或去商城挑选喜欢的宠物与用品。\n\n去逛逛"
+      ]
+    }
+  ],
+  "dimensions": [
+    {
+      "page": "cart",
+      "viewport": 390,
+      "bodyScrollWidth": 390,
+      "containerClientWidth": 366,
+      "containerScrollWidth": 720,
+      "overflowX": "auto"
+    },
+    {
+      "page": "orders",
+      "viewport": 390,
+      "bodyScrollWidth": 390,
+      "containerClientWidth": 346,
+      "containerScrollWidth": 431,
+      "overflowX": "auto"
+    },
+    {
+      "page": "order-detail",
+      "viewport": 390,
+      "bodyScrollWidth": 781,
+      "orderGridWidth": 368,
+      "panelWidths": [
+        770,
+        770
+      ]
+    }
+  ],
+  "links": [
+    {
+      "route": "/main",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "route": "/category",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "route": "/cart",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "route": "/checkout",
+      "status": 400,
+      "ok": false
+    },
+    {
+      "route": "/orders",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "route": "/login",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "route": "/register",
+      "status": 200,
+      "ok": true
+    }
+  ]
+}

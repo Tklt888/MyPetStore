@@ -11,6 +11,7 @@ public class ProductListQuery {
     private String status;
     private Long topCategoryId;
     private Long categoryId;
+    private Integer maxStock;
 
     public Long getPage() {
         return page;
@@ -40,6 +41,8 @@ public class ProductListQuery {
     public void setTopCategoryId(Long topCategoryId) { this.topCategoryId = topCategoryId; }
     public Long getCategoryId() { return categoryId; }
     public void setCategoryId(Long categoryId) { this.categoryId = categoryId; }
+    public Integer getMaxStock() { return maxStock; }
+    public void setMaxStock(Integer maxStock) { this.maxStock = maxStock; }
 
     public long normalizedPage() {
         return page == null || page < 1 ? 1L : page;
@@ -58,4 +61,5 @@ public class ProductListQuery {
 
     public Long normalizedTopCategoryId() { return topCategoryId != null && topCategoryId > 0 ? topCategoryId : null; }
     public Long normalizedCategoryId() { return categoryId != null && categoryId > 0 ? categoryId : null; }
+    public Integer normalizedMaxStock() { return maxStock != null && maxStock >= 0 ? maxStock : null; }
 }

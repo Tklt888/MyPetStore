@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>订单详情 - MyPetStore</title>
+    <link rel="stylesheet" th:href="@{/css/storefront.css}">
+    <script defer th:src="@{/js/motion.js}"></script>
+</head>
+<body>
+<header th:replace="~{fragments/shell :: header('orders')}"></header>
+<main class="store-shell page">
+    <div class="flash-message" role="status" th:if="${message}" th:text="${message}"></div>
+    <svg class="payment-success-icon" th:if="${justPaid}" data-just-paid="true" viewBox="0 0 48 48" width="48" height="48" aria-label="支付成功"><path d="M10 25l9 9 19-21" fill="none" stroke="#2f5d50" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div class="flash-message is-error" role="alert" th:if="${error}" th:text="${error}"></div>
+    <header class="page-head"><span class="eyebrow">ORDER DETAIL</span><h1 th:text="${#strings.startsWith(order.orderNo,'DEMO-')?'MP-'+#strings.substring(order.orderNo,5):order.orderNo}">订单号</h1><p><span class="status-badge" th:text="${order.status=='PENDING_PAYMENT'?'待支付':(order.status=='PAID'?'待发货':(order.status=='SHIPPED'?'已发货':(order.status=='COMPLETED'?'已完成':'已取消')))}"></span></p></header>
+    <div class="order-grid">
+        <section class="panel order-products-panel">
+            <h2>商品明细</h2>
+            <table class="table order-lines-table">
+                <tbody><tr th:each="line:${lines}"><td class="order-line-product"><div class="cart-product"><img th:src="|/${line.coverImageSnapshot}|" th:alt="${line.productNameSnapshot}"><span><strong th:text="${line.productNameSnapshot}"></strong><small th:text="${line.skuSnapshot}"></small></span></div></td><td data-label="单价与数量" th:text="|¥${#numbers.formatDecimal(line.unitPrice,1,2)} × ${line.quantity}|"></td><td data-label="小计" class="order-line-total" th:text="|¥${#numbers.formatDecimal(line.lineAmount,1,2)}|"></td></tr></tbody>
+            </table>
+            <p class="detail-price" th:text="|${order.status=='PENDING_PAYMENT'?'应付金额':'订单金额'} ¥${#numbers.formatDecimal(order.totalAmount,1,2)}|"></p>
+        </section>
+        <aside class="panel order-info-panel">
+            <h2>订单与收货信息</h2>
+            <p><strong>创建时间</strong><br><span th:text="${#temporals.format(order.createdAt,'yyyy-MM-dd HH:mm:ss')}"></span></p>
+            <p><strong>收货人</strong><br><span th:text="${order.receiverName+' · '+order.receiverPhone}"></span></p>
+            <p><strong>地址</strong><br><span th:text="${#strings.replace(#strings.replace(order.receiverAddress,'教学示例地址：',''),'（非真实收货地址）','')}"></span></p>
+            <p th:if="${order.paymentNo!=null}"><strong>支付信息</strong><br><span th:text="${#strings.startsWith(order.paymentNo,'MOCK-')?'已完成支付':order.paymentNo}"></span><br><span th:text="${#temporals.format(order.paidAt,'yyyy-MM-dd HH:mm:ss')}"></span></p>
+            <div class="actions"><a class="primary" th:if="${order.status=='PENDING_PAYMENT'}" th:href="@{/orders/{id}/payment(id=${order.id})}">去支付</a><form class="inline" method="post" th:if="${order.status=='PENDING_PAYMENT'}" th:action="@{/orders/{id}/cancel(id=${order.id})}"><input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"><button class="danger">取消订单</button></form><form class="inline" method="post" th:if="${order.status=='SHIPPED'}" th:action="@{/orders/{id}/complete(id=${order.id})}"><input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"><button class="primary">确认收货</button></form><a class="secondary" th:href="@{/orders}">返回订单</a></div>
+        </aside>
+    </div>
+</main>
+<footer th:replace="~{fragments/shell :: footer}"></footer>
+</body>
+</html>

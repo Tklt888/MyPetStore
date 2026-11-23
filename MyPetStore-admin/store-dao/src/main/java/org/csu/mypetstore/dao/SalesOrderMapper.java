@@ -17,6 +17,21 @@ import java.util.List;
 @Mapper
 public interface SalesOrderMapper extends BaseMapper<SalesOrder> {
 
+    @Select("SELECT COUNT(*) FROM sales_order WHERE status = #{status}")
+    long countByStatus(@Param("status") String status);
+
+    @Select("""
+            SELECT o.id, o.order_no AS orderNo, o.user_id AS userId,
+                   u.username, u.display_name AS displayName,
+                   o.total_amount AS totalAmount, o.status,
+                   o.created_at AS createdAt, o.paid_at AS paidAt, o.shipped_at AS shippedAt
+              FROM sales_order o JOIN store_user u ON u.id = o.user_id
+             WHERE o.status = #{status}
+             ORDER BY o.created_at DESC, o.id DESC
+             LIMIT #{limit}
+            """)
+    List<OrderListItem> selectRecentByStatus(@Param("status") String status, @Param("limit") int limit);
+
     @Select("""
             <script>
             SELECT o.id, o.order_no AS orderNo, o.user_id AS userId,

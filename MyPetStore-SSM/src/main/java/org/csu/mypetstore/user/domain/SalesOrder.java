@@ -1,0 +1,11 @@
+package org.csu.mypetstore.user.domain;
+
+import com.baomidou.mybatisplus.annotation.*;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+@TableName("sales_order")
+public class SalesOrder {
+    @TableId(type=IdType.AUTO) private Long id; private String orderNo; private Long userId; private String status; private BigDecimal totalAmount; private String receiverName; private String receiverPhone; private String receiverAddress; private String paymentMethod; private String paymentNo; private LocalDateTime paidAt; private LocalDateTime cancelledAt; private LocalDateTime shippedAt; private LocalDateTime completedAt; private LocalDateTime createdAt; private LocalDateTime updatedAt;
+    public Long getId(){return id;} public void setId(Long v){id=v;} public String getOrderNo(){return orderNo;} public void setOrderNo(String v){orderNo=v;} public Long getUserId(){return userId;} public void setUserId(Long v){userId=v;} public String getStatus(){return status;} public void setStatus(String v){status=v;} public BigDecimal getTotalAmount(){return totalAmount;} public void setTotalAmount(BigDecimal v){totalAmount=v;} public String getReceiverName(){return receiverName;} public void setReceiverName(String v){receiverName=v;} public String getReceiverPhone(){return receiverPhone;} public void setReceiverPhone(String v){receiverPhone=v;} public String getReceiverAddress(){return receiverAddress;} public void setReceiverAddress(String v){receiverAddress=v;} public String getPaymentMethod(){return paymentMethod;} public void setPaymentMethod(String v){paymentMethod=v;} public String getPaymentNo(){return paymentNo;} public void setPaymentNo(String v){paymentNo=v;} public LocalDateTime getPaidAt(){return paidAt;} public void setPaidAt(LocalDateTime v){paidAt=v;} public LocalDateTime getCancelledAt(){return cancelledAt;} public void setCancelledAt(LocalDateTime v){cancelledAt=v;} public LocalDateTime getShippedAt(){return shippedAt;} public void setShippedAt(LocalDateTime v){shippedAt=v;} public LocalDateTime getCompletedAt(){return completedAt;} public void setCompletedAt(LocalDateTime v){completedAt=v;} public LocalDateTime getCreatedAt(){return createdAt;} public void setCreatedAt(LocalDateTime v){createdAt=v;} public LocalDateTime getUpdatedAt(){return updatedAt;} public void setUpdatedAt(LocalDateTime v){updatedAt=v;}
+}

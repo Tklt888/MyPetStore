@@ -27,6 +27,7 @@ public class ProductQueryServiceImpl implements ProductQueryService {
                 query.normalizedKeyword(),
                 query.normalizedStatus(),
                 query.normalizedTopCategoryId(),
-                query.normalizedCategoryId());
+                query.normalizedCategoryId(),
+                query.normalizedMaxStock());
     }
 }

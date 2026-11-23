@@ -1,5 +1,1 @@
-<!doctype html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="UTF-8"><title>内容不存在</title></head>
-<body><main><h1>内容不存在</h1><p th:text="${message}">分类不存在或已被删除</p><a th:href="@{/admin/categories}">返回分类列表</a></main></body>
-</html>
+<!doctype html><html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>内容不存在 - MyPetStore</title><link rel="stylesheet" th:href="@{/css/admin.css}"></head><body><main class="error-page"><section class="error-card"><span class="error-code">404</span><h1>没有找到相关内容</h1><p th:text="${message}?:'内容可能已被删除，或访问地址不正确。'">内容不存在</p><div class="error-actions"><a class="secondary-button" href="javascript:history.back()">返回上一页</a><a class="filter-submit" th:href="@{/}">返回控制台</a></div></section></main></body></html>

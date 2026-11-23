@@ -23,13 +23,14 @@ class ProductMapperContractTest {
     @Test
     void mapperExposesPagedProductQuery() throws NoSuchMethodException {
         Method method = ProductMapper.class.getMethod(
-                "selectProductPage", Page.class, String.class, String.class, Long.class, Long.class);
+                "selectProductPage", Page.class, String.class, String.class, Long.class, Long.class, Integer.class);
 
         assertEquals(IPage.class, method.getReturnType());
         String sql = selectSqlOf(method);
         assertTrue(sql.contains("LEFT JOIN category parent"));
         assertTrue(sql.contains("parent.id = #{topCategoryId}"));
         assertTrue(sql.contains("p.category_id = #{categoryId}"));
+        assertTrue(sql.contains("p.stock &lt;= #{maxStock}"));
         assertTrue(sql.contains("ORDER BY p.sort_order ASC, p.id ASC"));
     }
 

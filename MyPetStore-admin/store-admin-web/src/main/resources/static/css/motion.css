@@ -1,0 +1,51 @@
+@view-transition { navigation: auto; }
+
+::view-transition-old(root) { animation: page-out 160ms ease both; }
+::view-transition-new(root) { animation: page-in 180ms ease both; }
+.admin-sidebar { view-transition-name: admin-sidebar; }
+.admin-main { view-transition-name: admin-content; }
+::view-transition-old(admin-sidebar),
+::view-transition-new(admin-sidebar) { animation: none; }
+
+@keyframes page-out { to { opacity: 0; } }
+@keyframes page-in { from { opacity: 0; } }
+
+.data-table tbody tr { transition: background-color 120ms ease; }
+button:not(:disabled),
+[class$="button"]:not([aria-disabled="true"]),
+.page-action,
+.filter-submit { transition: transform 120ms ease, background-color 120ms ease, opacity 120ms ease; }
+button:not(:disabled):active,
+[class$="button"]:not([aria-disabled="true"]):active,
+.page-action:active,
+.filter-submit:active { transform: scale(.98); }
+button:disabled,
+[aria-disabled="true"] { transition: none; }
+
+.flash-message { position: relative; padding-right: 46px; animation: flash-enter 200ms ease both; transition: opacity 180ms ease, transform 180ms ease; }
+.flash-message.is-leaving { opacity: 0; transform: translateY(-6px); }
+.flash-close { position: absolute; top: 50%; right: 10px; width: 30px; height: 30px; padding: 0; border: 0; border-radius: 6px; background: transparent; color: currentColor; cursor: pointer; transform: translateY(-50%); }
+.flash-close:active { transform: translateY(-50%) scale(.98); }
+@keyframes flash-enter { from { opacity: 0; transform: translateY(-8px); } }
+
+.field-error,
+[class*="error-message"] { animation: field-error-in 120ms ease both; }
+@keyframes field-error-in { from { opacity: 0; } }
+
+.data-table tr:target { animation: row-highlight 1.2s ease-out; scroll-margin-top: 24px; }
+@keyframes row-highlight { 0%, 35% { background: var(--primary-soft); } 100% { background: transparent; } }
+
+.confirm-dialog { opacity: 0; transform: translateY(8px); transition: opacity 200ms ease, transform 200ms ease, display 200ms allow-discrete, overlay 200ms allow-discrete; }
+.confirm-dialog[open] { opacity: 1; transform: translateY(0); }
+.confirm-dialog::backdrop { opacity: 0; transition: opacity 200ms ease, display 200ms allow-discrete, overlay 200ms allow-discrete; }
+.confirm-dialog[open]::backdrop { opacity: 1; }
+@starting-style {
+  .confirm-dialog[open] { opacity: 0; transform: translateY(8px); }
+  .confirm-dialog[open]::backdrop { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root), ::view-transition-new(root), .flash-message,
+  .data-table tr:target, .field-error, [class*="error-message"] { animation: none; }
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}

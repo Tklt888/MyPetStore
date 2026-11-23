@@ -11,6 +11,7 @@ import org.csu.mypetstore.model.Product;
 import org.csu.mypetstore.model.dto.ProductCategoryOption;
 import org.csu.mypetstore.model.dto.ProductEditView;
 import org.csu.mypetstore.model.dto.ProductListItem;
+import org.csu.mypetstore.model.dto.DashboardStockItem;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -32,13 +33,31 @@ public interface ProductMapper extends BaseMapper<Product> {
                <if test="status != null">AND p.status = #{status}</if>
                <if test="topCategoryId != null">AND parent.id = #{topCategoryId}</if>
                <if test="categoryId != null">AND p.category_id = #{categoryId}</if>
+               <if test="maxStock != null">AND p.stock &lt;= #{maxStock}</if>
              </where>
              ORDER BY p.sort_order ASC, p.id ASC
             </script>
             """)
     IPage<ProductListItem> selectProductPage(Page<ProductListItem> page,
             @Param("keyword") String keyword, @Param("status") String status,
-            @Param("topCategoryId") Long topCategoryId, @Param("categoryId") Long categoryId);
+            @Param("topCategoryId") Long topCategoryId, @Param("categoryId") Long categoryId,
+            @Param("maxStock") Integer maxStock);
+
+    @Select("SELECT COUNT(*) FROM product WHERE stock <= #{maxStock}")
+    long countWithStockAtMost(@Param("maxStock") int maxStock);
+
+    @Select("SELECT COUNT(*) FROM product WHERE status = #{status}")
+    long countByStatus(@Param("status") String status);
+
+    @Select("""
+            SELECT id, name, cover_image AS coverImage, stock, status
+              FROM product
+             WHERE stock <= #{maxStock}
+             ORDER BY stock ASC, id ASC
+             LIMIT #{limit}
+            """)
+    List<DashboardStockItem> selectLowStockItems(@Param("maxStock") int maxStock,
+                                                 @Param("limit") int limit);
 
     @Select("""
             SELECT p.id, p.sku, p.category_id, p.name, p.summary, p.description,

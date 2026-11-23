@@ -54,6 +54,16 @@ class ProductListQueryTest {
     }
 
     @Test
+    void maximumStockFilterOnlyAcceptsNonNegativeValues() {
+        ProductListQuery query = query(1L, null, null);
+        query.setMaxStock(-1);
+        assertNull(query.normalizedMaxStock());
+
+        query.setMaxStock(3);
+        assertEquals(3, query.normalizedMaxStock());
+    }
+
+    @Test
     void serviceAlwaysRequestsTenRows() {
         AtomicLong requestedSize = new AtomicLong();
         ProductMapper mapper = (ProductMapper) Proxy.newProxyInstance(

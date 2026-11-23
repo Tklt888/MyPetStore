@@ -1,5 +1,1 @@
-<!doctype html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="UTF-8"><title>请求参数错误</title></head>
-<body><main><h1>请求参数错误</h1><p th:text="${message}">请求参数格式不正确</p><a th:href="@{/admin/categories}">返回分类列表</a></main></body>
-</html>
+<!doctype html><html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>请求参数错误 - MyPetStore</title><link rel="stylesheet" th:href="@{/css/admin.css}"></head><body><main class="error-page"><section class="error-card"><span class="error-code">400</span><h1>请求参数不正确</h1><p th:text="${message}?:'请检查输入内容后重试。'">请求参数格式不正确</p><div class="error-actions"><a class="secondary-button" href="javascript:history.back()">返回上一页</a><a class="filter-submit" th:href="@{/}">返回控制台</a></div></section></main></body></html>

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>我的订单 - MyPetStore</title>
+    <link rel="stylesheet" th:href="@{/css/storefront.css}">
+    <script defer th:src="@{/js/motion.js}"></script>
+</head>
+<body>
+<header th:replace="~{fragments/shell :: header('orders')}"></header>
+<main class="store-shell page orders-page">
+    <div class="flash-message" role="status" th:if="${message}" th:text="${message}"></div>
+    <div class="flash-message is-error" role="alert" th:if="${error}" th:text="${error}"></div>
+    <header class="page-head orders-heading">
+        <span class="eyebrow">MY ORDERS</span>
+        <div class="orders-heading__row"><h1>我的订单</h1><span class="orders-total" th:text="|共 ${page.total} 个订单|">共0个订单</span></div>
+        <p>查看和管理你的订单</p>
+    </header>
+    <section class="orders-filter" aria-label="订单筛选">
+        <form class="order-search" method="get" th:action="@{/orders}" role="search">
+            <input type="hidden" name="status" th:value="${status}">
+            <label for="orderNo">订单号</label>
+            <input class="control" id="orderNo" name="orderNo" maxlength="40" th:value="${orderNo}" placeholder="输入部分订单号">
+            <button class="primary">查询</button>
+        </form>
+        <nav class="order-status-tabs" aria-label="按订单状态筛选">
+            <a th:classappend="${status==null or status==''}?' is-active'" th:href="@{/orders(orderNo=${orderNo})}">全部</a>
+            <a th:classappend="${status=='PENDING_PAYMENT'}?' is-active'" th:href="@{/orders(status='PENDING_PAYMENT',orderNo=${orderNo})}">待支付</a>
+            <a th:classappend="${status=='PAID'}?' is-active'" th:href="@{/orders(status='PAID',orderNo=${orderNo})}">待发货</a>
+            <a th:classappend="${status=='SHIPPED'}?' is-active'" th:href="@{/orders(status='SHIPPED',orderNo=${orderNo})}">已发货</a>
+            <a th:classappend="${status=='COMPLETED'}?' is-active'" th:href="@{/orders(status='COMPLETED',orderNo=${orderNo})}">已完成</a>
+            <a th:classappend="${status=='CANCELLED'}?' is-active'" th:href="@{/orders(status='CANCELLED',orderNo=${orderNo})}">已取消</a>
+        </nav>
+    </section>
+    <section class="order-list" aria-label="订单列表">
+        <article class="order-summary" th:each="o:${page.records}" th:classappend="| status-${o.statusClass()} ${o.status=='CANCELLED'?'is-cancelled':''}|">
+            <a class="order-summary__hit" th:href="@{/orders/{id}(id=${o.id})}" th:aria-label="${'查看订单 '+(#strings.startsWith(o.orderNo,'DEMO-')?'MP-'+#strings.substring(o.orderNo,5):o.orderNo)+' 详情'}"></a>
+            <div class="order-summary__meta"><strong th:text="${#strings.startsWith(o.orderNo,'DEMO-')?'MP-'+#strings.substring(o.orderNo,5):o.orderNo}">订单号</strong><time th:datetime="${o.createdAt}" th:text="${#temporals.format(o.createdAt,'yyyy-MM-dd HH:mm')}">2026-11-10 22:11</time></div>
+            <div class="order-summary__products"><div class="order-thumbs"><img th:each="thumb:${o.thumbnails}" th:src="|/${thumb.coverImage}|" th:alt="${thumb.name}"><span class="order-thumbs__more" th:if="${o.hasHiddenItems()}" th:text="|+${o.hiddenItemCount}|">+2</span></div><span class="order-item-summary" th:text="${o.itemSummary}">比格犬、养护套装 等 3 件</span></div>
+            <div class="order-summary__side">
+                <span class="order-status" th:classappend="| status-${o.statusClass()}|" th:text="${o.statusLabel()}">状态</span>
+                <strong class="order-amount" th:text="|¥${#numbers.formatDecimal(o.totalAmount,1,2)}|">¥0.00</strong>
+                <div class="order-summary__actions"><a class="order-detail-link" th:href="@{/orders/{id}(id=${o.id})}">查看详情</a><form method="post" th:if="${o.cancellable()}" th:action="@{/orders/{id}/cancel(id=${o.id})}"><input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"><input type="hidden" name="returnTo" value="list"><button class="order-cancel">取消订单</button></form></div>
+            </div>
+        </article>
+    </section>
+    <section class="orders-empty" th:if="${page.records.isEmpty()}"><span aria-hidden="true">○</span><h2>还没有订单</h2><p>试试调整筛选条件，或去商城挑选喜欢的宠物与用品。</p><a class="primary" th:href="@{/category}">去逛逛</a></section>
+    <nav class="pagination orders-pagination" aria-label="订单分页" th:if="${page.pages>1}"><a th:if="${page.current>1}" th:href="@{/orders(page=${page.current-1},pageSize=${pageSize},status=${status},orderNo=${orderNo})}">上一页</a><span th:text="|第 ${page.current} / ${page.pages} 页 · 共 ${page.total} 个订单|">分页</span><a th:if="${page.current<page.pages}" th:href="@{/orders(page=${page.current+1},pageSize=${pageSize},status=${status},orderNo=${orderNo})}">下一页</a></nav>
+</main>
+<footer th:replace="~{fragments/shell :: footer}"></footer>
+</body>
+</html>

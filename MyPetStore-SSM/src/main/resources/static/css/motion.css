@@ -1,0 +1,49 @@
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: page-out 160ms ease both; }
+::view-transition-new(root) { animation: page-in 180ms ease both; }
+.site-header { view-transition-name: site-header; }
+::view-transition-old(site-header), ::view-transition-new(site-header) { animation: none; }
+@keyframes page-out { to { opacity: 0; } }
+@keyframes page-in { from { opacity: 0; } }
+
+.catalog-product-grid > *, .category-strip > *, .recommend-grid > *, .hot-grid > * { animation: item-enter 200ms ease both; }
+.catalog-product-grid > *:nth-child(2), .category-strip > *:nth-child(2), .recommend-grid > *:nth-child(2), .hot-grid > *:nth-child(2) { animation-delay: 30ms; }
+.catalog-product-grid > *:nth-child(3), .category-strip > *:nth-child(3), .recommend-grid > *:nth-child(3), .hot-grid > *:nth-child(3) { animation-delay: 60ms; }
+.catalog-product-grid > *:nth-child(4), .category-strip > *:nth-child(4), .recommend-grid > *:nth-child(4), .hot-grid > *:nth-child(4) { animation-delay: 90ms; }
+.catalog-product-grid > *:nth-child(5), .category-strip > *:nth-child(5), .recommend-grid > *:nth-child(5), .hot-grid > *:nth-child(5) { animation-delay: 120ms; }
+.catalog-product-grid > *:nth-child(6) { animation-delay: 150ms; }
+.catalog-product-grid > *:nth-child(7) { animation-delay: 180ms; }
+.catalog-product-grid > *:nth-child(8) { animation-delay: 210ms; }
+.catalog-product-grid > *:nth-child(n+9) { animation: none; }
+@keyframes item-enter { from { opacity: 0; transform: translateY(8px); } }
+
+button:not(:disabled), [role="button"]:not([aria-disabled="true"]), .home-primary, .cart-link { transition: transform 120ms ease, background-color 120ms ease; }
+button:not(:disabled):active, [role="button"]:not([aria-disabled="true"]):active, .home-primary:active, .cart-link:active { transform: scale(.98); }
+button:disabled, [aria-disabled="true"] { transition: none; }
+.catalog-product-card, .recommend-grid article { transition: transform 120ms ease, box-shadow 120ms ease; }
+.catalog-product-card:hover, .recommend-grid article:hover { transform: translateY(-2px); }
+.cart-link b.is-bumping { animation: cart-bump 240ms ease; }
+@keyframes cart-bump { 50% { transform: scale(1.15); } }
+.qty-changing { animation: qty-change 120ms ease; }
+@keyframes qty-change { from { opacity: .45; } }
+
+.flash, .flash-message, [data-flash] { position: relative; animation: flash-enter 200ms ease both; transition: opacity 180ms ease, transform 180ms ease; }
+.is-leaving { opacity: 0; transform: translateY(-6px); }
+.motion-close { position: absolute; top: 8px; right: 8px; border: 0; background: transparent; cursor: pointer; }
+@keyframes flash-enter { from { opacity: 0; transform: translateY(-8px); } }
+.field-error, [aria-invalid="true"] + small { animation: error-in 120ms ease both; }
+@keyframes error-in { from { opacity: 0; } }
+
+dialog { opacity: 0; transform: translateY(8px); transition: opacity 200ms ease, transform 200ms ease, display 200ms allow-discrete, overlay 200ms allow-discrete; }
+dialog[open] { opacity: 1; transform: translateY(0); }
+dialog::backdrop { opacity: 0; transition: opacity 200ms ease, display 200ms allow-discrete, overlay 200ms allow-discrete; }
+dialog[open]::backdrop { opacity: 1; }
+@starting-style { dialog[open] { opacity: 0; transform: translateY(8px); } dialog[open]::backdrop { opacity: 0; } }
+
+.payment-success-icon[data-just-paid="true"] path { stroke-dasharray: 60; animation: paid-stroke 400ms ease both; }
+@keyframes paid-stroke { from { stroke-dashoffset: 60; } to { stroke-dashoffset: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root), ::view-transition-new(root), .catalog-product-grid > *, .category-strip > *, .recommend-grid > *, .hot-grid > *, .cart-link b.is-bumping, .qty-changing, .flash, .flash-message, [data-flash] { animation: none; }
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}

@@ -1,0 +1,27 @@
+:root {
+    --bg: #f9f8f6;
+    --surface: #ffffff;
+    --sunken: #fcfbf9;
+    --ink: #2d2b2a;
+    --ink-2: #79736c;
+    --border: #eae6df;
+    --primary: #2c5545;
+    --primary-hover: #1f3f33;
+    --primary-soft: #f0f5f2;
+    --accent: #c8795a;
+    --accent-hover: #ad6248;
+    --danger: #a84b43;
+    --danger-soft: #fbefed;
+    --sidebar: #142921;
+    --sidebar-hover: #1f3f33;
+    --focus: rgba(66, 122, 91, .34);
+    --shadow-1: 0 2px 12px rgba(45, 43, 42, .04);
+    --shadow-soft: 0 14px 40px rgba(45, 43, 42, .08);
+    --radius-card: 16px;
+    --radius-control: 10px;
+    --radius-banner: 22px;
+    --sidebar-width: 240px;
+    --font-sans: Manrope, "PingFang SC", "Microsoft YaHei", sans-serif;
+    --font-display: Outfit, Manrope, "PingFang SC", sans-serif;
+    --motion-fast: 150ms ease;
+}

@@ -1,23 +1,14 @@
-<!doctype html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title th:text="${applicationName}">MyPetStore 管理端</title>
-</head>
-<body>
-<main>
-    <h1 th:text="${applicationName}">MyPetStore 管理端</h1>
-    <p>你好，<strong th:text="${adminDisplayName}">管理员</strong>。</p>
-    <p>数据库连接成功，当前共有 <strong th:text="${productCount}">0</strong> 个商品。</p>
-    <p><a th:href="@{/admin/products}">进入商品管理</a></p>
-    <p><a th:href="@{/admin/categories}">进入分类管理</a></p>
-    <p><a th:href="@{/admin/orders}">进入订单管理</a></p>
-    <p><a th:href="@{/admin/customers}">进入客户管理</a></p>
-    <form method="post" th:action="@{/logout}">
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-        <button type="submit">安全退出</button>
-    </form>
-</main>
-</body>
-</html>
+<!doctype html><html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title th:text="${applicationName}">MyPetStore 管理端</title><link rel="stylesheet" th:href="@{/css/admin.css}"></head><body>
+<a class="skip-link" href="#main-content">跳到主要内容</a><div class="admin-shell"><aside th:replace="~{fragments/admin-shell :: sidebar('home')}"></aside><main class="admin-main" id="main-content" tabindex="-1"><div class="content-container dashboard-page">
+<header class="dashboard-header"><div><h1>控制台</h1><p th:text="${dashboardDate}">2026年11月17日 星期二</p></div><div class="dashboard-actions"><a class="secondary-button" th:href="@{/admin/categories/new}">新增分类</a><a class="page-action" th:href="@{/admin/products/new}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>新增商品</a></div></header>
+<section class="metric-grid" aria-label="商城关键数据">
+ <a class="metric-card is-orders" th:href="@{/admin/orders(status='PAID')}"><span class="metric-icon"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3Zm3 5h6m-6 4h6"/></svg></span><strong th:text="${dashboard.pendingShipmentCount}">0</strong><span>待发货订单</span><small>需要及时处理的订单</small></a>
+ <a class="metric-card is-stock" th:href="@{/admin/products(maxStock=3)}"><span class="metric-icon"><svg viewBox="0 0 24 24"><path d="M4 7h16v13H4V7Zm4 0V4h8v3M8 15h8"/></svg></span><strong th:text="${dashboard.lowStockCount}">0</strong><span>库存紧张商品</span><small>库存不高于 3 件</small></a>
+ <a class="metric-card" th:href="@{/admin/products(status='ON_SALE')}"><span class="metric-icon"><svg viewBox="0 0 24 24"><path d="M4 5h6v6H4V5Zm10 0h6v6h-6V5ZM4 15h6v4H4v-4Zm10 0h6v4h-6v-4Z"/></svg></span><strong th:text="${dashboard.onSaleProductCount}">0</strong><span>在售商品</span><small>当前商城可购买商品</small></a>
+ <a class="metric-card" th:href="@{/admin/customers}"><span class="metric-icon"><svg viewBox="0 0 24 24"><path d="M8 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm8 1a3 3 0 1 0 0-6M2 21v-3a5 5 0 0 1 10 0v3m1-7a5 5 0 0 1 9 3v4"/></svg></span><strong th:text="${dashboard.customerCount}">0</strong><span>客户总数</span><small>已注册商城客户</small></a>
+</section>
+<div class="dashboard-columns">
+ <section class="dashboard-panel" aria-labelledby="pending-title"><header><div><h2 id="pending-title">待处理订单</h2><p>最近待发货的订单</p></div><a th:href="@{/admin/orders(status='PAID')}">查看全部</a></header><div class="dashboard-list" th:if="${!dashboard.pendingOrders.isEmpty()}"><a class="order-queue-item" th:each="order:${dashboard.pendingOrders}" th:href="@{/admin/orders/{id}(id=${order.id})}"><div><strong th:text="${order.orderNo}">ORD-001</strong><span th:text="${order.displayName != null and !order.displayName.isBlank() ? order.displayName : order.username}">客户</span></div><div><b th:text="|¥${#numbers.formatDecimal(order.totalAmount,1,2)}|">¥0.00</b><time th:text="${#temporals.format(order.createdAt,'MM-dd HH:mm')}">11-17 10:00</time></div></a></div><div class="dashboard-empty" th:if="${dashboard.pendingOrders.isEmpty()}"><span>✓</span><strong>暂无待发货订单</strong><p>新的待处理订单会显示在这里。</p></div></section>
+ <section class="dashboard-panel" aria-labelledby="stock-title"><header><div><h2 id="stock-title">库存预警</h2><p>库存不高于 3 件的商品</p></div><a th:href="@{/admin/products(maxStock=3)}">查看全部</a></header><div class="dashboard-list" th:if="${!dashboard.lowStockProducts.isEmpty()}"><a class="stock-queue-item" th:each="product:${dashboard.lowStockProducts}" th:href="@{/admin/products/{id}/edit(id=${product.id})}"><span class="stock-thumb"><span class="stock-fallback" aria-hidden="true">🐾</span><img th:if="${product.coverImage != null and !product.coverImage.isBlank()}" th:src="${#strings.startsWith(product.coverImage,'/') ? product.coverImage : '/' + product.coverImage}" th:alt="${product.name}" onerror="this.remove()"></span><span class="stock-copy"><strong th:text="${product.name}">商品名称</strong><small th:text="${product.status=='ON_SALE'?'在售商品':'已下架'}">在售商品</small></span><b th:classappend="${product.stock==0}?' is-out'" th:text="${product.stock==0?'已售罄':product.stock+' 件'}">1 件</b></a></div><div class="dashboard-empty" th:if="${dashboard.lowStockProducts.isEmpty()}"><span>✓</span><strong>库存充足</strong><p>当前没有需要补货的商品。</p></div></section>
+</div>
+</div></main></div></body></html>
